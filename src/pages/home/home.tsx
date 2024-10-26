@@ -1,5 +1,7 @@
 export function Home() {
   return (
-    <>Content</>
+    <>
+      Home
+    </>
   )
 }
