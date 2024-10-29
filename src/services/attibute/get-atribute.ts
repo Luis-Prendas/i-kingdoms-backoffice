@@ -1,5 +1,5 @@
 import { API_RESPONSE } from "@/types/api"
-import { Attribute, DB_Attribute } from "@/types/attribute/types"
+import { Attribute, DB_Attribute } from "@/types/tables/attribute/types"
 
 export const getAllAtributes = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL

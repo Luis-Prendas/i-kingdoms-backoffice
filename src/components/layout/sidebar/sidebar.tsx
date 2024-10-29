@@ -43,9 +43,9 @@ const skills = [
 
 export function SidebarLayout() {
   return (
-    <SidebarProvider className="w-64 h-full" >
-      <Sidebar className="h-full rounded border" >
-        <SidebarContent className="w-full h-full">
+    <SidebarProvider >
+      <Sidebar >
+        <SidebarContent>
           <div className="flex gap-2 items-center w-full justify-center pt-2">
             <img src="/icon.svg" alt="Logo Imaginary Kingdoms Backoffice" className="h-8" />
             <h1 className="text-2xl font-bold">I-Kingdoms</h1>

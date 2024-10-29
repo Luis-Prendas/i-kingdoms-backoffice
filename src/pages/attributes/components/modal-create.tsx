@@ -1,5 +1,5 @@
 import { Dispatch, useEffect, useState } from "react";
-import { Attribute } from "@/types/attribute/types";
+import { Attribute } from "@/types/tables/attribute/types";
 import { useCreateAttribute } from "@/hooks/use-attribute";
 import { useMutation } from "@tanstack/react-query";
 

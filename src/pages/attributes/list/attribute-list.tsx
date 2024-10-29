@@ -4,7 +4,7 @@ import { Spinner } from "../../../components/spinner"
 import { ModalCreate } from "../components/modal-create"
 import { useState } from "react"
 import { ModalEdit } from "../components/modal-edit"
-import { DB_Attribute } from "@/types/attribute/types"
+import { DB_Attribute } from "@/types/tables/attribute/types"
 import { ModalDelete } from "../components/modal-delete"
 
 export function AttributeList() {

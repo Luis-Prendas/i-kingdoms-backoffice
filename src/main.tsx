@@ -10,6 +10,7 @@ import { RaceList } from './pages/races/list/race-list.tsx'
 import { Home } from './pages/home/home.tsx'
 import { RaceBonusList } from './pages/races/bonus-list/race-bonus-list.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { SkillList } from './pages/skills/list/skill-list.tsx'
 
 const queryClient = new QueryClient()
 
@@ -31,6 +32,11 @@ createRoot(document.getElementById('root')!).render(
             {/* Attributes */}
             <Route path='/attributes'>
               <Route path='attribute-list' element={<AttributeList />} />
+            </Route>
+
+            {/* Skills */}
+            <Route path='/skills'>
+              <Route path='skill-list' element={<SkillList />} />
             </Route>
 
             {/* Others */}

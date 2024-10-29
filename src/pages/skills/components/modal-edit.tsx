@@ -1,31 +1,36 @@
 import { Dispatch, useEffect, useState } from "react";
-import { DB_Attribute } from "@/types/tables/attribute/types";
 import { useMutation } from "@tanstack/react-query";
-import { useEditAttribute } from "@/hooks/use-attribute";
+import { useGetAllAttributes } from "@/hooks/use-attribute";
+import { DB_Skill, DB_SkillWithRelation } from "@/types/tables/skill/skill";
+import { Spinner } from "@/components/spinner";
+import { useEditSkill } from "@/hooks/use-skill";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
-  const [attributeName, setAttributeName] = useState<string>(row?.attribute_name || "")
+export function ModalEdit({ row, setShow, refetch }: { row: DB_SkillWithRelation | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const { data, isLoading } = useGetAllAttributes()
+
+  const [skillName, setSkillName] = useState<string>(row?.skill_name || "")
   const [shortName, setShortName] = useState<string>(row?.short_name || "")
+  const [attributeRelation, setAttributeRelation] = useState<number>(row?.attribute_id || 0)
 
   const [save, setSave] = useState<boolean>(false)
 
   useEffect(() => {
-    if (attributeName) {
+    if (skillName && shortName && attributeRelation) {
       setSave(true)
     } else {
       setSave(false)
     }
-  }, [attributeName])
+  }, [attributeRelation, shortName, skillName])
 
-  const handleChangeAttribute = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAttributeName(e.target.value)
+  const handleChangeSkill = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSkillName(e.target.value)
     const nameShort = e.target.value.slice(0, 3)
     setShortName(nameShort)
   }
 
-  const editAttribute = useMutation({
-    mutationKey: ['editAttribute'],
-    mutationFn: useEditAttribute,
+  const updateSkill = useMutation({
+    mutationKey: ['updateSkill'],
+    mutationFn: useEditSkill,
     onSuccess: () => {
       setShow(false)
       refetch()
@@ -33,27 +38,29 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null,
   })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!row) return;
-
-    const updatedItem: DB_Attribute = {
-      id: row.id,
-      is_deleted: row.is_deleted,
-      created_at: row.created_at,
-      updated_at: row.updated_at,
-      attribute_name: attributeName,
-      short_name: shortName
+    
+    const newItem: DB_Skill = {
+      id: row.skill_id,
+      is_deleted: false,
+      created_at: '',
+      updated_at: '',
+      skill_name: skillName,
+      short_name: shortName,
+      attribute_id: attributeRelation,
     }
-
-    editAttribute.mutate({ attribute: updatedItem })
+    updateSkill.mutate({ skill: newItem })
   }
+
+  if (isLoading) return <Spinner />
 
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-black/20 backdrop-blur absolute top-0 left-0 text-zinc-700">
       <form onSubmit={handleSubmit} className="w-full h-full flex justify-center items-center">
         <div className="w-[600px] bg-zinc-100">
           <header className="w-full flex justify-between items-center p-2 border-b">
-            <h1 className="text-xl">Editar Atributo</h1>
+            <h1 className="text-xl">Editar Habilidad</h1>
             <div>
               <button onClick={() => setShow(false)} className="bg-red-300 text-red-900 px-4 py-2 rounded flex justify-center items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
@@ -64,12 +71,21 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null,
           </header>
           <main className="w-full h-full flex flex-col gap-2 justify-center items-center p-2">
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="attributeName">Nombre del atributo</label>
-              <input value={attributeName} onChange={handleChangeAttribute} id="nameAttribute" type="text" className="border p-1 rounded bg-zinc-50" />
+              <label htmlFor="skillName">Nombre de la habilidad</label>
+              <input value={skillName} onChange={handleChangeSkill} id="skillName" type="text" className="border p-1 rounded bg-zinc-50" />
             </div>
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="shortAttributeName">Abreviatura</label>
-              <input value={shortName} onChange={(e) => setShortName(e.target.value)} id="nameShortUpper" type="text" className="border p-1 rounded bg-zinc-50" />
+              <label htmlFor="shortSkillName">Abreviatura</label>
+              <input value={shortName} onChange={(e) => setShortName(e.target.value)} id="shortSkillName" type="text" className="border p-1 rounded bg-zinc-50" />
+            </div>
+            <div className="flex flex-col justify-center items-start">
+              <label htmlFor="attributeRelation">Atributo relacionado</label>
+              <select id="attributeRelation" value={attributeRelation} onChange={(e) => setAttributeRelation(Number(e.target.value))} className="border p-2 rounded bg-zinc-50">
+                <option value="" hidden>Seleccione un atributo</option>
+                {data && data.response && data.response.map(attribute => (
+                  <option key={attribute.id} value={attribute.id}>{attribute.attribute_name}</option>
+                ))}
+              </select>
             </div>
           </main>
           <footer className="w-full flex gap-2 justify-end items-end p-2 border-t">

@@ -1,5 +1,5 @@
 import { createAttribute, deleteAttribute, editAttribute, getAllAtributes, getAttributeById } from "../services/attibute/get-atribute"
-import { Attribute, DB_Attribute } from "@/types/attribute/types"
+import { Attribute, DB_Attribute } from "@/types/tables/attribute/types"
 import { API_RESPONSE } from "@/types/api"
 import { useQuery } from "@tanstack/react-query"
 

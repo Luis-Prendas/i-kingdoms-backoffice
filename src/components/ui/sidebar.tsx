@@ -140,7 +140,7 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              "group/sidebar-wrapper flex w-full has-[[data-variant=inset]]:bg-sidebar",
+              "group/sidebar-wrapper flex w-full has-[[data-variant=inset]]:bg-sidebar w-full h-full",
               className
             )}
             ref={ref}
@@ -214,7 +214,7 @@ const Sidebar = React.forwardRef<
     return (
       <div
         ref={ref}
-        className="group peer text-sidebar-foreground rounded"
+        className="group peer text-sidebar-foreground rounded w-full h-full"
         data-state={state}
         data-collapsible={state === "collapsed" ? collapsible : ""}
         data-variant={variant}
@@ -222,7 +222,7 @@ const Sidebar = React.forwardRef<
       >
         <div
           className={cn(
-            "duration-200 z-10 hidden w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex rounded bg-card",
+            "duration-200 z-10 hidden transition-[left,right,width] ease-linear md:flex rounded bg-card w-full h-full border",
             side === "left"
               ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",

@@ -1,12 +1,12 @@
-import { useDeleteAttribute } from "@/hooks/use-attribute";
-import { DB_Attribute } from "@/types/tables/attribute/types";
+import { useDeleteSkill } from "@/hooks/use-skill";
+import { DB_SkillWithRelation } from "@/types/tables/skill/skill";
 import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 
-export function ModalDelete({ row, setShow, refetch }: { row: DB_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
-  const deleteAttribute = useMutation({
-    mutationKey: ['deleteAttribute'],
-    mutationFn: useDeleteAttribute,
+export function ModalDelete({ row, setShow, refetch }: { row: DB_SkillWithRelation | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const deleteSkill = useMutation({
+    mutationKey: ['deleteSkill'],
+    mutationFn: useDeleteSkill,
     onSuccess: () => {
       setShow(false)
       refetch()
@@ -16,7 +16,7 @@ export function ModalDelete({ row, setShow, refetch }: { row: DB_Attribute | nul
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!row) return;
-    deleteAttribute.mutate({ id: row.id })
+    deleteSkill.mutate({ id: row.skill_id })
   }
 
   return (
@@ -24,7 +24,7 @@ export function ModalDelete({ row, setShow, refetch }: { row: DB_Attribute | nul
       <form onSubmit={handleSubmit} className="w-full h-full flex justify-center items-center">
         <div className="w-[600px] bg-zinc-100">
           <header className="w-full flex justify-between items-center p-2 border-b">
-            <h1 className="text-xl">Editar Atributo</h1>
+            <h1 className="text-xl">Eliminar Habilidad</h1>
             <div>
               <button onClick={() => setShow(false)} className="bg-red-300 text-red-900 px-4 py-2 rounded flex justify-center items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
