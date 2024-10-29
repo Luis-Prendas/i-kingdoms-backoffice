@@ -1,44 +1,36 @@
 import { Dispatch, useEffect, useState } from "react";
-import { Attribute } from "@/types/attribute/types";
-import { useCreateAttribute } from "@/hooks/use-attribute";
-import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
+import { createRace } from "../../../../services/race/get-race";
 
-export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
-  const [attributeName, setAttributeName] = useState<string>("")
-  const [shortName, setShortName] = useState<string>("")
+export function ModalCreate({ setShow }: { setShow: Dispatch<boolean> }) {
+  const navigate = useNavigate();
+
+  const [nameRace, setNameRace] = useState<string>("")
 
   const [save, setSave] = useState<boolean>(false)
 
   useEffect(() => {
-    if (attributeName) {
+    if (nameRace) {
       setSave(true)
     } else {
       setSave(false)
     }
-  }, [attributeName])
-
-  const handleChangeAttribute = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAttributeName(e.target.value)
-    const nameShort = e.target.value.slice(0, 3)
-    setShortName(nameShort)
-  }
-
-  const createAttribute = useMutation({
-    mutationKey: ['createAttribute'],
-    mutationFn: useCreateAttribute,
-    onSuccess: () => {
-      setShow(false)
-      refetch()
-    },
-  })
+  }, [nameRace])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newItem: Attribute = {
-      attribute_name: attributeName,
-      short_name: shortName,
+    e.preventDefault()
+
+    const race: Race = {
+      id: '',
+      created_at: '',
+      updated_at: '',
+      race_name: nameRace,
     }
-    createAttribute.mutate({ attribute: newItem })
+
+    createRace(race).then(() => {
+      setShow(false)
+      navigate(0);
+    })
   }
 
   return (
@@ -46,7 +38,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
       <form onSubmit={handleSubmit} className="w-full h-full flex justify-center items-center">
         <div className="w-[600px] bg-zinc-100">
           <header className="w-full flex justify-between items-center p-2 border-b">
-            <h1 className="text-xl">Crear Atributo</h1>
+            <h1 className="text-xl">Crear bunus</h1>
             <div>
               <button onClick={() => setShow(false)} className="bg-red-300 text-red-900 px-4 py-2 rounded flex justify-center items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
@@ -57,12 +49,8 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
           </header>
           <main className="w-full h-full flex flex-col gap-2 justify-center items-center p-2">
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="attributeName">Nombre del atributo</label>
-              <input value={attributeName} onChange={handleChangeAttribute} id="nameAttribute" type="text" className="border p-1 rounded bg-zinc-50" />
-            </div>
-            <div className="flex flex-col justify-center items-start">
-              <label htmlFor="shortAttributeName">Abreviatura</label>
-              <input value={shortName} onChange={(e) => setShortName(e.target.value)} id="nameShortUpper" type="text" className="border p-1 rounded bg-zinc-50" />
+              <label htmlFor="nameRace">Nombre de la raza</label>
+              {/* <input value={nameRace} onChange={(e) => setNameRace(e.target.value)} id="nameRace" type="text" className="border p-1 rounded bg-zinc-50" /> */}
             </div>
           </main>
           <footer className="w-full flex gap-2 justify-end items-end p-2 border-t">

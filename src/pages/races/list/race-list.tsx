@@ -1,39 +1,37 @@
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { useGetAllAttributes } from "../../../hooks/use-attribute"
-import { Spinner } from "../../../components/spinner"
-import { ModalCreate } from "../components/modal-create"
 import { useState } from "react"
-import { ModalEdit } from "../components/modal-edit"
-import { DB_Attribute } from "@/types/attribute/types"
-import { ModalDelete } from "../components/modal-delete"
+import { ModalCreate } from "./components/modal-create"
+import { useGetAllRaces } from "../../../hooks/use-race"
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+import { Spinner } from "../../../components/spinner"
+import { ModalEdit } from "./components/modal-edit"
 
-export function AttributeList() {
-  const { data, isLoading, refetch } = useGetAllAttributes()
+export function RaceList() {
+  const { races } = useGetAllRaces()
 
   const [modalCreate, setModalCreate] = useState<boolean>(false)
   const [modalEdit, setModalEdit] = useState<boolean>(false)
-  const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_Attribute | null>(null)
+  const [rowSelected, setRowSelected] = useState<GetAllRaces | null>(null)
 
-  const handleEdit = (row: DB_Attribute) => {
+  const handleEdit = (row: GetAllRaces) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_Attribute) => {
-    setRowSelected(row)
-    setModalDelete(true)
-  }
-
-  const columns: ColumnDef<DB_Attribute>[] = [
+  const columns: ColumnDef<GetAllRaces>[] = [
     {
-      accessorKey: 'attribute_name',
-      header: 'Atributo',
+      accessorKey: 'race_name',
+      header: 'Raza',
     },
     {
-      accessorKey: 'short_name',
-      header: 'Abreviatura',
+      header: 'Sub-razas',
+      cell: ({ row }) => (
+        <div>
+          {row.original.sub_races && row.original.sub_races.map(subRace => (
+            <span className="py-1 px-2 bg-yellow-200 text-yellow-900 rounded-full text-sm font-light">{subRace.sub_race_name}</span>
+          ))}
+        </div>
+      )
     },
     {
       header: 'Acciones',
@@ -45,7 +43,7 @@ export function AttributeList() {
               <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
             </svg>
           </button>
-          <button onClick={() => handleDelete(row.original)} className="bg-red-400 text-red-900 px-4 py-2 rounded flex justify-center items-center gap-2">
+          <button className="bg-red-400 text-red-900 px-4 py-2 rounded flex justify-center items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
               <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
             </svg>
@@ -56,12 +54,12 @@ export function AttributeList() {
   ]
 
   const table = useReactTable({
-    data: data && data.response ? data.response : [],
+    data: races || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
 
-  if (isLoading) {
+  if (!races) {
     return <Spinner />
   }
 
@@ -102,9 +100,8 @@ export function AttributeList() {
         </svg>
       </button>
 
-      {modalCreate && <ModalCreate setShow={setModalCreate} refetch={refetch} />}
-      {modalEdit && <ModalEdit row={rowSelected} setShow={setModalEdit} refetch={refetch} />}
-      {modalDelete && <ModalDelete row={rowSelected} setShow={setModalDelete} refetch={refetch} />}
+      {modalCreate && <ModalCreate setShow={setModalCreate} />}
+      {modalEdit && <ModalEdit row={rowSelected} setShow={setModalEdit} />}
     </div>
   )
 }

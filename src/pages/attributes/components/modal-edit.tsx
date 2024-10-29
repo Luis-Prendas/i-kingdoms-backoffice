@@ -1,54 +1,51 @@
 import { Dispatch, useEffect, useState } from "react";
-import { editAttribute } from "../../../services/attibute/get-atribute";
-import { useNavigate } from "react-router";
+import { DB_Attribute } from "@/types/attribute/types";
+import { useMutation } from "@tanstack/react-query";
+import { useEditAttribute } from "@/hooks/use-attribute";
 
-export function ModalEdit({ row, setShow }: { row: Attribute | null, setShow: Dispatch<boolean> }) {
-  const navigate = useNavigate();
-
-  const [nameAttribute, setNameAttribute] = useState<string>(row?.attri_name || "")
-  const [nameUpper, setNameUpper] = useState<string>(row?.up_attri_name || "")
-  const [nameShort, setNameShort] = useState<string>(row?.min_attri_name || "")
-  const [nameShortUpper, setNameShortUpper] = useState<string>(row?.up_min_attri_name || "")
+export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const [attributeName, setAttributeName] = useState<string>(row?.attribute_name || "")
+  const [shortName, setShortName] = useState<string>(row?.short_name || "")
 
   const [save, setSave] = useState<boolean>(false)
 
   useEffect(() => {
-    if (nameAttribute) {
+    if (attributeName) {
       setSave(true)
     } else {
       setSave(false)
     }
-  }, [nameAttribute])
+  }, [attributeName])
 
   const handleChangeAttribute = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNameAttribute(e.target.value)
-
-    const nameUpper = e.target.value.toUpperCase()
+    setAttributeName(e.target.value)
     const nameShort = e.target.value.slice(0, 3)
-    const nameShortUpper = nameShort.toUpperCase()
-
-    setNameUpper(nameUpper)
-    setNameShort(nameShort)
-    setNameShortUpper(nameShortUpper)
+    setShortName(nameShort)
   }
+
+  const editAttribute = useMutation({
+    mutationKey: ['editAttribute'],
+    mutationFn: useEditAttribute,
+    onSuccess: () => {
+      setShow(false)
+      refetch()
+    },
+  })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!row) return;
 
-    const attribute: Attribute = {
-      id: row?.id || '',
-      created_at: '',
-      updated_at: new Date().toISOString(),
-      attri_name: nameAttribute,
-      up_attri_name: nameUpper,
-      min_attri_name: nameShort,
-      up_min_attri_name: nameShortUpper,
+    const updatedItem: DB_Attribute = {
+      id: row.id,
+      is_deleted: row.is_deleted,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+      attribute_name: attributeName,
+      short_name: shortName
     }
 
-    editAttribute(attribute).then(() => {
-      setShow(false)
-      navigate(0);
-    })
+    editAttribute.mutate({ attribute: updatedItem })
   }
 
   return (
@@ -67,20 +64,12 @@ export function ModalEdit({ row, setShow }: { row: Attribute | null, setShow: Di
           </header>
           <main className="w-full h-full flex flex-col gap-2 justify-center items-center p-2">
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="nameAttribute">Nombre del atributo</label>
-              <input value={nameAttribute} onChange={handleChangeAttribute} id="nameAttribute" type="text" className="border p-1 rounded bg-zinc-50" />
+              <label htmlFor="attributeName">Nombre del atributo</label>
+              <input value={attributeName} onChange={handleChangeAttribute} id="nameAttribute" type="text" className="border p-1 rounded bg-zinc-50" />
             </div>
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="nameUpper">Mayúsculas</label>
-              <input value={nameUpper} onChange={(e) => setNameUpper(e.target.value)} id="nameUpper" type="text" readOnly className="border p-1 rounded bg-zinc-50" />
-            </div>
-            <div className="flex flex-col justify-center items-start">
-              <label htmlFor="nameShort">Abreviatura</label>
-              <input value={nameShort} onChange={(e) => setNameShort(e.target.value)} id="nameShort" type="text" readOnly className="border p-1 rounded bg-zinc-50" />
-            </div>
-            <div className="flex flex-col justify-center items-start">
-              <label htmlFor="nameShortUpper">Abreviatura Mayúsculas</label>
-              <input value={nameShortUpper} onChange={(e) => setNameShortUpper(e.target.value)} id="nameShortUpper" type="text" readOnly className="border p-1 rounded bg-zinc-50" />
+              <label htmlFor="shortAttributeName">Abreviatura</label>
+              <input value={shortName} onChange={(e) => setShortName(e.target.value)} id="nameShortUpper" type="text" className="border p-1 rounded bg-zinc-50" />
             </div>
           </main>
           <footer className="w-full flex gap-2 justify-end items-end p-2 border-t">
