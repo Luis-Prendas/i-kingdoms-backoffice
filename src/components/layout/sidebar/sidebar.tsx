@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import { Gift, SlidersHorizontal, Users } from "lucide-react"
+import { SlidersHorizontal, Users } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const races = [
@@ -19,10 +19,10 @@ const races = [
     icon: Users,
   },
   {
-    title: "Bonus en atributos",
-    url: "/races/bonus-list",
-    icon: Gift,
-  },
+    title: "Lista de Sub-razas",
+    url: "/races/sub-races/sub-race-list",
+    icon: SlidersHorizontal,
+  }
 ]
 
 const attributes = [
@@ -51,7 +51,7 @@ export function SidebarLayout() {
             <h1 className="text-2xl font-bold">I-Kingdoms</h1>
           </div>
           <SidebarGroup>
-            <SidebarGroupLabel>Raza</SidebarGroupLabel>
+            <SidebarGroupLabel>Razas</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {races.map((item) => (

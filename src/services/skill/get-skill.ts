@@ -1,5 +1,5 @@
 import { API_RESPONSE } from "@/types/api"
-import { DB_Skill, DB_SkillWithRelation, Skill } from "@/types/tables/skill/skill"
+import { DB_Skill, DB_SkillJoinAttribute, Skill } from "@/types/tables/skill/skill"
 
 export const getAllSkills = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
@@ -70,8 +70,8 @@ export const deleteSkill = async (id: number) => {
 export const getAllSkillsWithRelation = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
 
-  const res = await fetch(`${baseUrl}/api/skill/all-relation`)
-  const response = await res.json() as API_RESPONSE<DB_SkillWithRelation[]>
+  const res = await fetch(`${baseUrl}/api/skill/join-attribute`)
+  const response = await res.json() as API_RESPONSE<DB_SkillJoinAttribute[]>
 
   return response
 }

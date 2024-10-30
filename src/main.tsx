@@ -8,9 +8,9 @@ import { NotFound } from './pages/404/404.tsx'
 import { AttributeList } from './pages/attributes/list/attribute-list.tsx'
 import { RaceList } from './pages/races/list/race-list.tsx'
 import { Home } from './pages/home/home.tsx'
-import { RaceBonusList } from './pages/races/bonus-list/race-bonus-list.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SkillList } from './pages/skills/list/skill-list.tsx'
+import { SubRaceList } from './pages/races/sub-races/list/sub-race-list.tsx'
 
 const queryClient = new QueryClient()
 
@@ -26,7 +26,7 @@ createRoot(document.getElementById('root')!).render(
             {/* Races */}
             <Route path='/races'>
               <Route path='race-list' element={<RaceList />} />
-              <Route path='bonus-list' element={<RaceBonusList />} />
+              <Route path='sub-races/sub-race-list' element={<SubRaceList />} />
             </Route>
 
             {/* Attributes */}

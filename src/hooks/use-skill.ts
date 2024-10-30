@@ -1,6 +1,6 @@
 import { createSkill, deleteSkill, editSkill, getAllSkills, getAllSkillsWithRelation, getSkillById } from "@/services/skill/get-skill"
 import { API_RESPONSE } from "@/types/api"
-import { DB_Skill, DB_SkillWithRelation, Skill } from "@/types/tables/skill/skill"
+import { DB_Skill, DB_SkillJoinAttribute, Skill } from "@/types/tables/skill/skill"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllSkills = () => {
@@ -52,7 +52,7 @@ export const useGetAllSkillsWithRelation = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_SkillWithRelation[]>, Error>({
+  return useQuery<API_RESPONSE<DB_SkillJoinAttribute[]>, Error>({
     queryKey: ['useGetAllSkillsWithRelation'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,

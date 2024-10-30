@@ -9,15 +9,16 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
 import { Input } from "@/components/ui/input"
-import { DB_Race } from "@/types/tables/race/race"
-import { useGetAllRaces } from "@/hooks/use-race"
 import { ModalCreate } from "./components/modal-create"
 import { ModalEdit } from "./components/modal-edit"
 import { ModalDelete } from "./components/modal-delete"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useGetAllSubRacesJoinRace } from "@/hooks/use-sub-race"
+import { Link } from "react-router-dom"
+import { DB_SubRaceJoinRace } from "@/types/tables/race/sub-race/sub-race"
 
-export function RaceList() {
-  const { data, isLoading, refetch } = useGetAllRaces()
+export function SubRaceList() {
+  const { data, isLoading, refetch } = useGetAllSubRacesJoinRace()
 
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -26,23 +27,23 @@ export function RaceList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_Race | null>(null)
+  const [rowSelected, setRowSelected] = useState<DB_SubRaceJoinRace | null>(null)
 
-  const handleEdit = (row: DB_Race) => {
+  const handleEdit = (row: DB_SubRaceJoinRace) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_Race) => {
+  const handleDelete = (row: DB_SubRaceJoinRace) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_Race>[] = [
+  const columns: ColumnDef<DB_SubRaceJoinRace>[] = [
     {
-      accessorKey: 'race_name',
-      id: 'Raza',
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Raza" />,
+      accessorKey: 'sub_race_name',
+      id: 'Sub-raza',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Sub-raza" />,
     },
     {
       accessorKey: 'description',
@@ -58,6 +59,12 @@ export function RaceList() {
           </Tooltip>
         </TooltipProvider>
       ),
+    },
+    {
+      accessorKey: 'race_name',
+      id: 'Raza de origen',
+      header: 'Raza de origen',
+      cell: ({ row }) => <Link to={`/races/race-list?search=${row.original.race_name}`} className="p-1 rounded-lg bg-yellow-200 text-yellow-900">{row.original.race_name}</Link>,
     },
     {
       accessorKey: 'created_at',
@@ -115,7 +122,7 @@ export function RaceList() {
     <div className="w-full h-full flex flex-col justify-start items-start p-2 gap-2">
       <div className="w-full flex justify-between items-center gap-2">
         <div className="w-full flex gap-2 justify-start items-center">
-          <Input placeholder="Filtrar por nombre..." value={(table.getColumn("Raza")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("Raza")?.setFilterValue(event.target.value)} className="max-w-sm" />
+          <Input placeholder="Filtrar por nombre..." value={(table.getColumn("Sub-raza")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("Sub-raza")?.setFilterValue(event.target.value)} className="max-w-sm" />
           <Button onClick={() => table.resetColumnFilters()} variant='outline' >Limpiar filtros</Button>
         </div>
         <div className="w-full flex gap-2 justify-end items-center">

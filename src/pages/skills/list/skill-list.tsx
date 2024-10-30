@@ -1,6 +1,6 @@
 import { Spinner } from "@/components/spinner"
 import { useGetAllSkillsWithRelation } from "@/hooks/use-skill"
-import { DB_SkillWithRelation } from "@/types/tables/skill/skill"
+import { DB_SkillJoinAttribute } from "@/types/tables/skill/skill"
 import {
   ColumnDef,
   flexRender,
@@ -52,19 +52,19 @@ export function SkillList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_SkillWithRelation | null>(null)
+  const [rowSelected, setRowSelected] = useState<DB_SkillJoinAttribute | null>(null)
 
-  const handleEdit = (row: DB_SkillWithRelation) => {
+  const handleEdit = (row: DB_SkillJoinAttribute) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_SkillWithRelation) => {
+  const handleDelete = (row: DB_SkillJoinAttribute) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_SkillWithRelation>[] = [
+  const columns: ColumnDef<DB_SkillJoinAttribute>[] = [
     {
       accessorKey: 'skill_name',
       id: 'Habilidad',
@@ -80,8 +80,18 @@ export function SkillList() {
       id: 'Atributo',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Atributo" />,
       cell: ({ row }) => (
-        <Link to={`/attributes/attribute-list?search=${row.original.attribute_name}`} className="p-1 rounded-lg bg-yellow-200 text-yellow-900">{row.original.attribute_name}</Link>
+        <Link to={`/attributes/attribute-list?search=${row.original.attribute_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.attribute_name}</Link>
       )
+    },
+    {
+      accessorKey: 'created_at',
+      id: 'Fecha de creación',
+      header: 'Fecha de creación',
+    },
+    {
+      accessorKey: 'updated_at',
+      id: 'Fecha de actualización',
+      header: 'Fecha de actualización',
     },
     {
       id: "Acciones",
@@ -183,14 +193,12 @@ export function SkillList() {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Sin resultados.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-
-
       <DataTablePagination table={table} />
 
       {modalCreate && <ModalCreate setShow={setModalCreate} refetch={refetch} />}

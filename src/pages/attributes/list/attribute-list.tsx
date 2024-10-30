@@ -1,4 +1,4 @@
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table"
 import { useGetAllAttributes } from "../../../hooks/use-attribute"
 import { Spinner } from "../../../components/spinner"
 import { ModalCreate } from "../components/modal-create"
@@ -6,9 +6,31 @@ import { useState } from "react"
 import { ModalEdit } from "../components/modal-edit"
 import { DB_Attribute } from "@/types/tables/attribute/types"
 import { ModalDelete } from "../components/modal-delete"
+import { Button } from "@/components/ui/button"
+import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DataTablePagination } from "@/components/ui/data-table-pagination"
+import { MoreHorizontal, PlusIcon } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useSearchParams } from "react-router-dom"
+import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
 
 export function AttributeList() {
   const { data, isLoading, refetch } = useGetAllAttributes()
+
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("search");
+
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: "Atributo", value: search ?? '' }])
 
   const [modalCreate, setModalCreate] = useState<boolean>(false)
   const [modalEdit, setModalEdit] = useState<boolean>(false)
@@ -29,36 +51,60 @@ export function AttributeList() {
   const columns: ColumnDef<DB_Attribute>[] = [
     {
       accessorKey: 'attribute_name',
-      header: 'Atributo',
+      id: 'Atributo',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Atributo" />,
     },
     {
       accessorKey: 'short_name',
+      id: 'Abreviatura',
       header: 'Abreviatura',
     },
     {
-      header: 'Acciones',
-      cell: ({ row }) => (
-        <div className="flex items-center gap-2">
-          <button onClick={() => handleEdit(row.original)} className="bg-blue-400 text-blue-950 px-4 py-2 rounded flex justify-center items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-              <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-              <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-            </svg>
-          </button>
-          <button onClick={() => handleDelete(row.original)} className="bg-red-400 text-red-900 px-4 py-2 rounded flex justify-center items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-              <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
-            </svg>
-          </button>
-        </div>
-      )
-    }
+      accessorKey: 'created_at',
+      id: 'Fecha de creación',
+      header: 'Fecha de creación',
+    },
+    {
+      accessorKey: 'updated_at',
+      id: 'Fecha de actualización',
+      header: 'Fecha de actualización',
+    },
+    {
+      id: "Acciones",
+      cell: ({ row }) => {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleEdit(row.original)}>Editar</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDelete(row.original)}>Eliminar</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+    },
   ]
 
   const table = useReactTable({
     data: data && data.response ? data.response : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      columnFilters
+    },
   })
 
   if (isLoading) {
@@ -66,41 +112,60 @@ export function AttributeList() {
   }
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-center p-4 gap-4">
-      <table className="text-sm text-center border border-zinc-400 text-zinc-700 bg-white">
-        <thead className="text-xs text-gray-700 uppercase border-b border-zinc-400">
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <th key={header.id} scope="col" className="px-6 py-3">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                </th>
-              ))}
-            </tr>
+    <div className="w-full h-full flex flex-col justify-start items-start p-2 gap-2">
+      <div className="w-full flex justify-between items-center gap-2">
+        <div className="w-full flex gap-2 justify-start items-center">
+          <Input placeholder="Filtrar por nombre..." value={(table.getColumn("Atributo")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("Atributo")?.setFilterValue(event.target.value)} className="max-w-sm" />
+          <Button onClick={() => table.resetColumnFilters()} variant='outline' >Limpiar filtros</Button>
+        </div>
+        <div className="w-full flex gap-2 justify-end items-center">
+          <Button onClick={() => setModalCreate(true)} variant='outline'><PlusIcon />Crear nuevo atributo</Button>
+          <DataTableViewOptions table={table} />
+        </div>
+      </div>
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                  </TableHead>
+                )
+              })}
+            </TableRow>
           ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row, rowIndex) => (
-            <tr key={row.id} className={`${rowIndex % 2 === 0 && 'bg-zinc-200'}`}>
-              {row.getVisibleCells().map((cell, cellIndex) => (
-                <td key={cell.id} className={`px-6 py-4 ${cellIndex === 0 && 'font-bold'}`}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <button onClick={() => setModalCreate(true)} className="bg-blue-400 text-blue-950 px-4 py-2 rounded flex justify-center items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-          <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
-        </svg>
-      </button>
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <DataTablePagination table={table} />
 
       {modalCreate && <ModalCreate setShow={setModalCreate} refetch={refetch} />}
       {modalEdit && <ModalEdit row={rowSelected} setShow={setModalEdit} refetch={refetch} />}
