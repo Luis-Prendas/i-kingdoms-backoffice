@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Base_Attribute, DB_Attribute } from "@/types/tables/attribute/types";
+import { DB_Attribute } from "@/types/tables/attribute/types";
 import { useEditAttribute } from "@/hooks/use-attribute";
 
 export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
@@ -39,7 +39,11 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null,
     e.preventDefault();
     if (!row) return;
 
-    const newItem: Base_Attribute = {
+    const newItem: DB_Attribute = {
+      id: row.id,
+      is_deleted: false,
+      created_at: '',
+      updated_at: '',
       attribute_name: attributeName,
       short_name: shortName,
     }
