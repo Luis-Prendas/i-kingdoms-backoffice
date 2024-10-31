@@ -3,33 +3,34 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { useGetAllRaces } from "@/hooks/use-race";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/spinner";
-import { DB_SubRace, DB_SubRaceJoinRace } from "@/types/tables/race/sub-race/sub-race";
-import { useUpdateSubRace } from "@/hooks/use-sub-race";
+import { useGetAllSubRaces } from "@/hooks/use-sub-race";
+import { useGetAllSkills } from "@/hooks/use-skill";
+import { DB_RaceSkillBonus, DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
+import { useUpdateSkillBonus } from "@/hooks/use-skill-bonus";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_SubRaceJoinRace | null, setShow: Dispatch<boolean>, refetch: () => void }) {
-  const { data, isLoading } = useGetAllRaces()
+export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoinSubRaceSkill | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const { data: dataSubRaces } = useGetAllSubRaces()
+  const { data: dataSkills, isLoading } = useGetAllSkills()
 
-  const [subRaceName, setSubRaceName] = useState<string>(row?.sub_race_name || "")
-  const [description, setDescription] = useState<string>(row?.description || "")
-  const [raceRelation, setRaceRelation] = useState<number>(row?.race_id || 0)
+  const [bonus, setBonus] = useState<number>( row?.bonus || 0 )
+  const [subRaceRelation, setSubRaceRelation] = useState<number>(row?.sub_race_id || 0)
+  const [skillRelation, setSkillRelation] = useState<number>(row?.skill_id || 0)
 
   const [save, setSave] = useState<boolean>(false)
 
   useEffect(() => {
-    if (subRaceName && description && raceRelation) { 
+    if (bonus && subRaceRelation && skillRelation) {
       setSave(true)
     } else {
       setSave(false)
     }
-  }, [subRaceName, description, raceRelation])
+  }, [bonus, subRaceRelation, skillRelation])
 
-  const updateSubRace = useMutation({
-    mutationKey: ['updateSubRace'],
-    mutationFn: useUpdateSubRace,
+  const udpadeSkillBonus = useMutation({
+    mutationKey: ['udpadeSkillBonus'],
+    mutationFn: useUpdateSkillBonus,
     onSuccess: () => {
       setShow(false)
       refetch()
@@ -40,17 +41,17 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SubRaceJoinRace |
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_SubRace = {
+    const newItem: DB_RaceSkillBonus = {
       id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',
-      sub_race_name: subRaceName,
-      description: description,
-      race_id: raceRelation,
+      bonus: bonus!,
+      sub_race_id: subRaceRelation,
+      skill_id: skillRelation,
     }
 
-    updateSubRace.mutate({ subRace: newItem })
+    udpadeSkillBonus.mutate({ skillBonus: newItem })
   }
 
   if (isLoading) return <Spinner />
@@ -60,7 +61,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SubRaceJoinRace |
       <form onSubmit={handleSubmit} className="w-full h-full flex justify-center items-center">
         <div className="min-w-[400px] flex flex-col justify-center items-center gap-2 bg-card rounded border p-2">
           <header className="w-full flex justify-between items-center">
-            <h1 className="text-xl">Crear Sub-raza</h1>
+            <h1 className="text-xl">Crear Bonus</h1>
             <Button onClick={() => setShow(false)} variant='destructiveOutline' size='sm' >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                 <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
@@ -70,25 +71,34 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SubRaceJoinRace |
           <Separator />
           <main className="w-full h-full flex flex-col justify-center items-center p-2">
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="subRaceName">Nombre de la sub-raza</label>
-              <Input id="subRaceName" type="text" className="w-80" value={subRaceName} onChange={(e) => setSubRaceName(e.target.value)} />
+              <label htmlFor="bonus">Bonus</label>
+              <Input id="bonus" type="number" max={5} min={-5} className="w-80" value={bonus} onChange={(e) => setBonus(Number(e.target.value))} />
             </div>
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="raceRelation">Raza de origen</label>
-              <Select value={raceRelation.toString()} onValueChange={(e) => setRaceRelation(Number(e))}>
+              <label htmlFor="subRaceRelation">Sub-raza</label>
+              <Select value={subRaceRelation.toString()} onValueChange={(e) => setSubRaceRelation(Number(e))}>
                 <SelectTrigger className="w-80">
-                  <SelectValue placeholder="Seleccione un atributo" />
+                  <SelectValue id='subRaceRelation' placeholder="Seleccione una sub-raza" />
                 </SelectTrigger>
                 <SelectContent>
-                  {data && data.response && data.response.map(race => (
-                    <SelectItem key={race.id} value={race.id.toString()}>{race.race_name}</SelectItem>
+                  {dataSubRaces && dataSubRaces.response && dataSubRaces.response.map(subRace => (
+                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.sub_race_name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="subRaceDescription">Descripción</label>
-              <Textarea id="subRaceDescription" className="w-80" value={description} onChange={(e) => setDescription(e.target.value)} />
+              <label htmlFor="skillRelation">Habilidad</label>
+              <Select value={skillRelation.toString()} onValueChange={(e) => setSkillRelation(Number(e))}>
+                <SelectTrigger className="w-80">
+                  <SelectValue id='skillRelation' placeholder="Seleccione una habilidad" />
+                </SelectTrigger>
+                <SelectContent>
+                  {dataSkills && dataSkills.response && dataSkills.response.map(skill => (
+                    <SelectItem key={skill.id} value={skill.id.toString()}>{skill.skill_name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </main>
           <Separator />

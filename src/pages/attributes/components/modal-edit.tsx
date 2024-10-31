@@ -4,56 +4,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useEditAttribute } from "@/hooks/use-attribute";
 
 export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
-  const [attributeName, setAttributeName] = useState<string>(row?.attribute_name || "")
-  const [shortName, setShortName] = useState<string>(row?.short_name || "")
-
-  const [save, setSave] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (attributeName) {
-      setSave(true)
-    } else {
-      setSave(false)
-    }
-  }, [attributeName])
-
-  const handleChangeAttribute = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAttributeName(e.target.value)
-    const nameShort = e.target.value.slice(0, 3)
-    setShortName(nameShort)
-  }
-
-  const editAttribute = useMutation({
-    mutationKey: ['editAttribute'],
-    mutationFn: useEditAttribute,
-    onSuccess: () => {
-      setShow(false)
-      refetch()
-    },
-  })
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!row) return;
-
-    const updatedItem: DB_Attribute = {
-      id: row.id,
-      is_deleted: row.is_deleted,
-      created_at: row.created_at,
-      updated_at: row.updated_at,
-      attribute_name: attributeName,
-      short_name: shortName
-    }
-
-    editAttribute.mutate({ attribute: updatedItem })
-  }
-
+  
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-black/20 backdrop-blur absolute top-0 left-0 text-zinc-700">
       <form onSubmit={handleSubmit} className="w-full h-full flex justify-center items-center">
         <div className="w-[600px] bg-zinc-100">
           <header className="w-full flex justify-between items-center p-2 border-b">
-            <h1 className="text-xl">Editar Atributo</h1>
+            <h1 className="text-xl">Crear Atributo</h1>
             <div>
               <button onClick={() => setShow(false)} className="bg-red-300 text-red-900 px-4 py-2 rounded flex justify-center items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">

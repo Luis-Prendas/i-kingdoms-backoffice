@@ -22,6 +22,11 @@ const races = [
     title: "Lista de Sub-razas",
     url: "/races/sub-races/sub-race-list",
     icon: SlidersHorizontal,
+  },
+  {
+    title: "Bonus en Habilidades", 
+    url: "/races/skill-bonus-list",
+    icon: SlidersHorizontal,
   }
 ]
 

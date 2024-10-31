@@ -15,12 +15,16 @@ import { ModalCreate } from "./components/modal-create"
 import { ModalEdit } from "./components/modal-edit"
 import { ModalDelete } from "./components/modal-delete"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useSearchParams } from "react-router-dom"
 
 export function RaceList() {
   const { data, isLoading, refetch } = useGetAllRaces()
 
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("search");
+
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: "Raza", value: search ?? '' }])
 
   const [modalCreate, setModalCreate] = useState<boolean>(false)
   const [modalEdit, setModalEdit] = useState<boolean>(false)

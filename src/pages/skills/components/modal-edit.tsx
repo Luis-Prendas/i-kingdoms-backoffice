@@ -1,7 +1,7 @@
 import { Dispatch, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useGetAllAttributes } from "@/hooks/use-attribute";
-import { DB_Skill, DB_SkillWithRelation } from "@/types/tables/skill/skill";
+import { DB_Skill, DB_SkillJoinAttribute } from "@/types/tables/skill/skill";
 import { Spinner } from "@/components/spinner";
 import { useEditSkill } from "@/hooks/use-skill";
 import { Separator } from "@/components/ui/separator";
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_SkillWithRelation | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalEdit({ row, setShow, refetch }: { row: DB_SkillJoinAttribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data, isLoading } = useGetAllAttributes()
 
   const [skillName, setSkillName] = useState<string>(row?.skill_name || "")
@@ -46,7 +46,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SkillWithRelation
     if (!row) return;
 
     const newItem: DB_Skill = {
-      id: row.skill_id,
+      id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',

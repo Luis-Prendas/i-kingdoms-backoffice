@@ -16,12 +16,19 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useGetAllSubRacesJoinRace } from "@/hooks/use-sub-race"
 import { Link } from "react-router-dom"
 import { DB_SubRaceJoinRace } from "@/types/tables/race/sub-race/sub-race"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useGetAllRaces } from "@/hooks/use-race"
+import { useSearchParams } from "react-router-dom"
 
 export function SubRaceList() {
+  const { data: dataRaces } = useGetAllRaces()
   const { data, isLoading, refetch } = useGetAllSubRacesJoinRace()
 
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("search");
+
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: "Sub-raza", value: search ?? '' }])
 
   const [modalCreate, setModalCreate] = useState<boolean>(false)
   const [modalEdit, setModalEdit] = useState<boolean>(false)
@@ -64,7 +71,7 @@ export function SubRaceList() {
       accessorKey: 'race_name',
       id: 'Raza de origen',
       header: 'Raza de origen',
-      cell: ({ row }) => <Link to={`/races/race-list?search=${row.original.race_name}`} className="p-1 rounded-lg bg-yellow-200 text-yellow-900">{row.original.race_name}</Link>,
+      cell: ({ row }) => <Link to={`/races/race-list?search=${row.original.race_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.race_name}</Link>,
     },
     {
       accessorKey: 'created_at',
@@ -123,10 +130,20 @@ export function SubRaceList() {
       <div className="w-full flex justify-between items-center gap-2">
         <div className="w-full flex gap-2 justify-start items-center">
           <Input placeholder="Filtrar por nombre..." value={(table.getColumn("Sub-raza")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("Sub-raza")?.setFilterValue(event.target.value)} className="max-w-sm" />
+          <Select value={(table.getColumn('Raza de origen')?.getFilterValue() as string) ?? ""} onValueChange={(e) => table.getColumn('Raza de origen')?.setFilterValue(e)}>
+            <SelectTrigger className="max-w-sm">
+              <SelectValue placeholder="Filtrar por raza..." />
+            </SelectTrigger>
+            <SelectContent>
+              {dataRaces && dataRaces.response && dataRaces.response.map(race => (
+                <SelectItem key={race.id} value={race.race_name}>{race.race_name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Button onClick={() => table.resetColumnFilters()} variant='outline' >Limpiar filtros</Button>
         </div>
         <div className="w-full flex gap-2 justify-end items-center">
-          <Button onClick={() => setModalCreate(true)} variant='outline'><PlusIcon /> Crear nueva raza</Button>
+          <Button onClick={() => setModalCreate(true)} variant='outline'><PlusIcon /> Crear nueva sub-raza</Button>
           <DataTableViewOptions table={table} />
         </div>
       </div>

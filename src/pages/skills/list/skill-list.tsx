@@ -40,13 +40,17 @@ import {
 } from "@/components/ui/select"
 import { useGetAllAttributes } from "@/hooks/use-attribute"
 import { Link } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 
 export function SkillList() {
   const { data: dataAttributes } = useGetAllAttributes()
   const { data, isLoading, refetch } = useGetAllSkillsWithRelation()
 
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("search");
+
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: "Habilidad", value: search ?? '' }])
 
   const [modalCreate, setModalCreate] = useState<boolean>(false)
   const [modalEdit, setModalEdit] = useState<boolean>(false)

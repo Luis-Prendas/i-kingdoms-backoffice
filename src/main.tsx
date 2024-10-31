@@ -11,6 +11,7 @@ import { Home } from './pages/home/home.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SkillList } from './pages/skills/list/skill-list.tsx'
 import { SubRaceList } from './pages/races/sub-races/list/sub-race-list.tsx'
+import { SkillBonusList } from './pages/races/skill-bonus/skill-bonus-list.tsx'
 
 const queryClient = new QueryClient()
 
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/races'>
               <Route path='race-list' element={<RaceList />} />
               <Route path='sub-races/sub-race-list' element={<SubRaceList />} />
+              <Route path='skill-bonus-list' element={<SkillBonusList />} />
             </Route>
 
             {/* Attributes */}
