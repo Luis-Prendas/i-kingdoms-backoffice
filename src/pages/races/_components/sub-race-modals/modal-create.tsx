@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useGetAllRaces } from "@/hooks/use-race";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/spinner";
-import { SubRace } from "@/types/tables/race/sub-race/sub-race";
+import { Base_SubRace } from "@/types/tables/race/sub-race/sub-race";
 import { useCreateSubRace } from "@/hooks/use-sub-race";
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
@@ -39,7 +39,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: SubRace = {
+    const newItem: Base_SubRace = {
       sub_race_name: subRaceName,
       description: description,
       race_id: raceRelation,

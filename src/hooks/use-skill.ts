@@ -1,6 +1,6 @@
 import { createSkill, deleteSkill, editSkill, getAllSkills, getAllSkillsWithRelation, getSkillById } from "@/services/skill/get-skill"
 import { API_RESPONSE } from "@/types/api"
-import { DB_Skill, DB_SkillJoinAttribute, Skill } from "@/types/tables/skill/skill"
+import { DB_Skill, DB_SkillJoinAttribute, Base_Skill } from "@/types/tables/skill/skill"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllSkills = () => {
@@ -31,12 +31,12 @@ export const useGetSkillById = ({ id }: { id: number }) => {
   })
 }
 
-export const useCreateSkill = async ({ skill }: { skill: Skill }) => {
+export const useCreateSkill = async ({ skill }: { skill: Base_Skill }) => {
   const res = await createSkill(skill)
   return res
 }
 
-export const useEditSkill = async ({ skill }: { skill: DB_Skill }) => {
+export const useEditSkill = async ({ skill }: { skill: Base_Skill }) => {
   const res = await editSkill(skill)
   return res
 }

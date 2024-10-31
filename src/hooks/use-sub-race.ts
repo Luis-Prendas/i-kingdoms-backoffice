@@ -1,6 +1,6 @@
 import { createSubRace, getAllSubRaces, getAllSubRacesJoinRace, updateSubRace } from "@/services/race/sub-race/sub-race"
 import { API_RESPONSE } from "@/types/api"
-import { DB_SubRace, DB_SubRaceJoinRace, SubRace } from "@/types/tables/race/sub-race/sub-race"
+import { DB_SubRace, DB_SubRaceJoinRace, Base_SubRace } from "@/types/tables/race/sub-race/sub-race"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllSubRaces = () => {
@@ -31,12 +31,12 @@ export const useGetAllSubRacesJoinRace = () => {
   })
 }
 
-export const useCreateSubRace = async ({ subRace }: { subRace: SubRace }) => {
+export const useCreateSubRace = async ({ subRace }: { subRace: Base_SubRace }) => {
   const res = await createSubRace(subRace)
   return res
 }
 
-export const useUpdateSubRace = async ({ subRace }: { subRace: DB_SubRace }) => {
+export const useUpdateSubRace = async ({ subRace }: { subRace: Base_SubRace }) => {
   const res = await updateSubRace(subRace)
   return res
 }

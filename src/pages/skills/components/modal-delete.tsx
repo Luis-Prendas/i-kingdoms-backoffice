@@ -1,11 +1,11 @@
 import { useDeleteSkill } from "@/hooks/use-skill";
-import { DB_SkillWithRelation } from "@/types/tables/skill/skill";
+import { DB_SkillJoinAttribute } from "@/types/tables/skill/skill";
 import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
-export function ModalDelete({ row, setShow, refetch }: { row: DB_SkillWithRelation | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalDelete({ row, setShow, refetch }: { row: DB_SkillJoinAttribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const deleteSkill = useMutation({
     mutationKey: ['deleteSkill'],
     mutationFn: useDeleteSkill,
@@ -18,7 +18,7 @@ export function ModalDelete({ row, setShow, refetch }: { row: DB_SkillWithRelati
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!row) return;
-    deleteSkill.mutate({ id: row.skill_id })
+    deleteSkill.mutate({ id: row.id })
   }
 
   return (

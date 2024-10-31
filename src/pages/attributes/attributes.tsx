@@ -1,7 +1,6 @@
 import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table"
 import { useGetAllAttributes } from "../../hooks/use-attribute"
 import { Spinner } from "../../components/spinner"
-import { ModalCreate } from "./components/modal-create"
 import { useState } from "react"
 import { ModalEdit } from "./components/modal-edit"
 import { DB_Attribute } from "@/types/tables/attribute/types"
@@ -15,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useSearchParams } from "react-router-dom"
 import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
+import { ModalCreate } from "./components/modal-create"
 
 export function AttributeList() {
   const { data, isLoading, refetch } = useGetAllAttributes()

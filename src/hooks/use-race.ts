@@ -1,6 +1,6 @@
 import { createRace, deleteRace, getAllRaces, getAllRacesWithSubRaces, updateRace } from "@/services/race/get-race"
 import { API_RESPONSE } from "@/types/api"
-import { DB_Race, DB_RaceWithRelation, Race } from "@/types/tables/race/race"
+import { DB_Race, DB_RaceWithRelation, Base_Race } from "@/types/tables/race/race"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllRaces = () => {
@@ -31,12 +31,12 @@ export const useGetAllRacesWithSubRaces = () => {
   })
 }
 
-export const useCreateRace = async ({ race }: { race: Race }) => {
+export const useCreateRace = async ({ race }: { race: Base_Race }) => {
   const res = await createRace(race)
   return res
 }
 
-export const useUpdateRace = async ({ race }: { race: DB_Race }) => {
+export const useUpdateRace = async ({ race }: { race: Base_Race }) => {
   const res = await updateRace(race)
   return res
 }

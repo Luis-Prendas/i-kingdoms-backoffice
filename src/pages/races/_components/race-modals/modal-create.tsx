@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateRace } from "@/hooks/use-race";
-import { Race } from "@/types/tables/race/race";
+import { Base_Race } from "@/types/tables/race/race";
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
   const [raceName, setRaceName] = useState<string>("")
@@ -33,7 +33,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: Race = {
+    const newItem: Base_Race = {
       race_name: raceName,
       description: description,
     }

@@ -1,5 +1,5 @@
 import { createAttribute, deleteAttribute, editAttribute, getAllAtributes, getAttributeById } from "../services/attibute/get-atribute"
-import { Attribute, DB_Attribute } from "@/types/tables/attribute/types"
+import { Base_Attribute, DB_Attribute } from "@/types/tables/attribute/types"
 import { API_RESPONSE } from "@/types/api"
 import { useQuery } from "@tanstack/react-query"
 
@@ -31,12 +31,12 @@ export const useGetAttributeById = ({ id }: { id: number }) => {
   })
 }
 
-export const useCreateAttribute = async ({ attribute }: { attribute: Attribute }) => {
+export const useCreateAttribute = async ({ attribute }: { attribute: Base_Attribute }) => {
   const res = await createAttribute(attribute)
   return res
 }
 
-export const useEditAttribute = async ({ attribute }: { attribute: Attribute }) => {
+export const useEditAttribute = async ({ attribute }: { attribute: Base_Attribute }) => {
   const res = await editAttribute(attribute)
   return res
 }

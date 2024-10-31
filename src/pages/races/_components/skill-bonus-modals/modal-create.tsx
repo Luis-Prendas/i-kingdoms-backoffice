@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Spinner } from "@/components/spinner";
 import { useGetAllSubRaces } from "@/hooks/use-sub-race";
 import { useGetAllSkills } from "@/hooks/use-skill";
-import { RaceSkillBonus } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
+import { Base_RaceSkillBonus } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
 import { useCreateSkillBonus } from "@/hooks/use-race-skill-bonus";
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
@@ -41,7 +41,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: RaceSkillBonus = {
+    const newItem: Base_RaceSkillBonus = {
       bonus: bonus!,
       sub_race_id: subRaceRelation,
       skill_id: skillRelation,
