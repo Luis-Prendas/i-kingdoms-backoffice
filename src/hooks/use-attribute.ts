@@ -36,7 +36,7 @@ export const useCreateAttribute = async ({ attribute }: { attribute: Base_Attrib
   return res
 }
 
-export const useEditAttribute = async ({ attribute }: { attribute: Base_Attribute }) => {
+export const useEditAttribute = async ({ attribute }: { attribute: DB_Attribute }) => {
   const res = await editAttribute(attribute)
   return res
 }

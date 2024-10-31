@@ -36,7 +36,7 @@ export const useCreateSubRace = async ({ subRace }: { subRace: Base_SubRace }) =
   return res
 }
 
-export const useUpdateSubRace = async ({ subRace }: { subRace: Base_SubRace }) => {
+export const useUpdateSubRace = async ({ subRace }: { subRace: DB_SubRace }) => {
   const res = await updateSubRace(subRace)
   return res
 }

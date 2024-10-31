@@ -1,17 +1,10 @@
 import { API_RESPONSE } from "@/types/api"
-import { DB_Race, DB_RaceWithRelation, Base_Race } from "@/types/tables/race/race"
+import { DB_Race, Base_Race } from "@/types/tables/race/race"
 
 export const getAllRaces = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/race`)
   const response = await res.json() as API_RESPONSE<DB_Race[]>
-  return response
-}
-
-export const getAllRacesWithSubRaces = async () => {
-  const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/race/join-subrace`)
-  const response = await res.json() as API_RESPONSE<DB_RaceWithRelation[]>
   return response
 }
 

@@ -36,7 +36,7 @@ export const useCreateSkill = async ({ skill }: { skill: Base_Skill }) => {
   return res
 }
 
-export const useEditSkill = async ({ skill }: { skill: Base_Skill }) => {
+export const useEditSkill = async ({ skill }: { skill: DB_Skill }) => {
   const res = await editSkill(skill)
   return res
 }

@@ -1,14 +1,4 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider } from "@/components/ui/sidebar"
 import { SlidersHorizontal, Users } from "lucide-react"
 import { Link } from "react-router-dom"
 
@@ -24,13 +14,36 @@ const races = [
     icon: SlidersHorizontal,
   },
   {
-    title: "Bonus en habilidades", 
+    title: "Bonus en habilidades",
     url: "/races/sub-races/skill-bonus",
     icon: SlidersHorizontal,
   },
   {
     title: "Bonus en atributos",
     url: "/races/sub-races/attribute-bonus",
+    icon: SlidersHorizontal,
+  }
+]
+
+const classes = [
+  {
+    title: "Lista de clases",
+    url: "/classes",
+    icon: SlidersHorizontal,
+  },
+  {
+    title: "Lista de sub-clases",
+    url: "/classes/sub-class",
+    icon: SlidersHorizontal,
+  },
+  {
+    title: "Bonus en habilidades",
+    url: "/classes/sub-class/skill-bonus",
+    icon: SlidersHorizontal,
+  },
+  {
+    title: "Bonus en atributos",
+    url: "/classes/sub-class/attribute-bonus",
     icon: SlidersHorizontal,
   }
 ]
@@ -65,6 +78,23 @@ export function SidebarLayout() {
             <SidebarGroupContent>
               <SidebarMenu>
                 {races.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link to={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+          <SidebarGroup>
+            <SidebarGroupLabel>Clases</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {classes.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <Link to={item.url}>

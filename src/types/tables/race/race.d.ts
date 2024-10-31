@@ -6,9 +6,3 @@ export interface Base_Race {
 }
 
 export interface DB_Race extends Base_Race, BASE_DB_TABLE { }
-
-export interface DB_RaceWithRelation {
-  race_id: number;
-  race_name: string;
-  sub_races: SubRace[];
-}
