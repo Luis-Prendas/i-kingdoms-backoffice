@@ -26,9 +26,9 @@ createRoot(document.getElementById('root')!).render(
 
             {/* Races */}
             <Route path='/races'>
-              <Route path='race-list' element={<RaceList />} />
-              <Route path='sub-races/sub-race-list' element={<SubRaceList />} />
-              <Route path='skill-bonus-list' element={<SkillBonusList />} />
+              <Route index element={<RaceList />} />
+              <Route path='sub-races' element={<SubRaceList />} />
+              <Route path='sub-races/skill-bonus' element={<SkillBonusList />} />
             </Route>
 
             {/* Attributes */}

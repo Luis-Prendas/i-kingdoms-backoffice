@@ -15,17 +15,22 @@ import { Link } from "react-router-dom"
 const races = [
   {
     title: "Lista de razas",
-    url: "/races/race-list",
+    url: "/races",
     icon: Users,
   },
   {
-    title: "Lista de Sub-razas",
-    url: "/races/sub-races/sub-race-list",
+    title: "Lista de sub-razas",
+    url: "/races/sub-races",
     icon: SlidersHorizontal,
   },
   {
-    title: "Bonus en Habilidades", 
-    url: "/races/skill-bonus-list",
+    title: "Bonus en habilidades", 
+    url: "/races/sub-races/skill-bonus",
+    icon: SlidersHorizontal,
+  },
+  {
+    title: "Bonus en atributos",
+    url: "/races/sub-races/attribute-bonus",
     icon: SlidersHorizontal,
   }
 ]
