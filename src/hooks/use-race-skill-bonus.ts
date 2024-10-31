@@ -1,6 +1,6 @@
 import { createSkillBonus, deleteSkillBonus, getAllSkillBonusJoinSubRaceSkill, updateSkillBonus } from "@/services/race/skill-bonus/skill-bonus"
 import { API_RESPONSE } from "@/types/api"
-import { DB_RaceSkillBonus, DB_RaceSkillBonusJoinSubRaceSkill, RaceSkillBonus } from "@/types/tables/race/race-skill-bonus/race-skill-bonus"
+import { Base_RaceSkillBonus, DB_RaceSkillBonus, DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllSkillBonusJoinSubRaceSkill = () => {
@@ -17,7 +17,7 @@ export const useGetAllSkillBonusJoinSubRaceSkill = () => {
     })
 }
 
-export const useCreateSkillBonus = async ({ skillBonus }: { skillBonus: RaceSkillBonus }) => {
+export const useCreateSkillBonus = async ({ skillBonus }: { skillBonus: Base_RaceSkillBonus }) => {
     const res = await createSkillBonus(skillBonus)
     return res
 }

@@ -1,5 +1,5 @@
 import { API_RESPONSE } from "@/types/api"
-import { Attribute, DB_Attribute } from "@/types/tables/attribute/types"
+import { Base_Attribute, DB_Attribute } from "@/types/tables/attribute/types"
 
 export const getAllAtributes = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
@@ -19,7 +19,7 @@ export const getAttributeById = async (id: number) => {
   return response
 }
 
-export const createAttribute = async (attribute: Attribute) => {
+export const createAttribute = async (attribute: Base_Attribute) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
 
   const res = await fetch(`${baseUrl}/api/attribute/create`, {
@@ -37,7 +37,7 @@ export const createAttribute = async (attribute: Attribute) => {
   return response
 }
 
-export const editAttribute = async (attribute: Attribute) => {
+export const editAttribute = async (attribute: Base_Attribute) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
 
   const res = await fetch(`${baseUrl}/api/attribute/update`, {

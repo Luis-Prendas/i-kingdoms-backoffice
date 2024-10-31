@@ -1,5 +1,5 @@
 import { API_RESPONSE } from "@/types/api"
-import { DB_SubRace, DB_SubRaceJoinRace, SubRace } from "@/types/tables/race/sub-race/sub-race"
+import { DB_SubRace, DB_SubRaceJoinRace, Base_SubRace } from "@/types/tables/race/sub-race/sub-race"
 
 export const getAllSubRaces = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
@@ -15,7 +15,7 @@ export const getAllSubRacesJoinRace = async () => {
   return response
 }
 
-export const createSubRace = async (subRace: SubRace) => {
+export const createSubRace = async (subRace: Base_SubRace) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/race/sub-race/create`, {
     method: 'POST',
@@ -28,7 +28,7 @@ export const createSubRace = async (subRace: SubRace) => {
   return response
 }
 
-export const updateSubRace = async (subRace: DB_SubRace) => {
+export const updateSubRace = async (subRace: Base_SubRace) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/race/sub-race/update`, {
     method: 'PUT',

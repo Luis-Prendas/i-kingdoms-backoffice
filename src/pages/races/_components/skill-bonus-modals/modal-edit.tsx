@@ -7,17 +7,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Spinner } from "@/components/spinner";
 import { useGetAllSubRaces } from "@/hooks/use-sub-race";
 import { useGetAllSkills } from "@/hooks/use-skill";
-import { RaceSkillBonus } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
-import { useCreateSkillBonus } from "@/hooks/use-skill-bonus";
+import { DB_RaceSkillBonus, DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
+import { useUpdateSkillBonus } from "@/hooks/use-race-skill-bonus";
 
-export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoinSubRaceSkill | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data: dataSubRaces } = useGetAllSubRaces()
   const { data: dataSkills, isLoading } = useGetAllSkills()
 
-
-  const [bonus, setBonus] = useState<number>()
-  const [subRaceRelation, setSubRaceRelation] = useState<number>(0)
-  const [skillRelation, setSkillRelation] = useState<number>(0)
+  const [bonus, setBonus] = useState<number>( row?.bonus || 0 )
+  const [subRaceRelation, setSubRaceRelation] = useState<number>(row?.sub_race_id || 0)
+  const [skillRelation, setSkillRelation] = useState<number>(row?.skill_id || 0)
 
   const [save, setSave] = useState<boolean>(false)
 
@@ -29,9 +28,9 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
     }
   }, [bonus, subRaceRelation, skillRelation])
 
-  const createSkillBonus = useMutation({
-    mutationKey: ['createSkillBonus'],
-    mutationFn: useCreateSkillBonus,
+  const udpadeSkillBonus = useMutation({
+    mutationKey: ['udpadeSkillBonus'],
+    mutationFn: useUpdateSkillBonus,
     onSuccess: () => {
       setShow(false)
       refetch()
@@ -40,14 +39,19 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!row) return;
 
-    const newItem: RaceSkillBonus = {
+    const newItem: DB_RaceSkillBonus = {
+      id: row.id,
+      is_deleted: false,
+      created_at: '',
+      updated_at: '',
       bonus: bonus!,
       sub_race_id: subRaceRelation,
       skill_id: skillRelation,
     }
 
-    createSkillBonus.mutate({ skillBonus: newItem })
+    udpadeSkillBonus.mutate({ skillBonus: newItem })
   }
 
   if (isLoading) return <Spinner />

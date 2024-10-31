@@ -6,31 +6,31 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/spinner";
 import { useGetAllSubRaces } from "@/hooks/use-sub-race";
-import { useGetAllSkills } from "@/hooks/use-skill";
-import { DB_RaceSkillBonus, DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
-import { useUpdateSkillBonus } from "@/hooks/use-skill-bonus";
+import { DB_RaceAttributeBonus, DB_RaceAttributeBonusJoinSubRaceAttribute } from "@/types/tables/race/race-attribute-bonus/race-attribute-bonus";
+import { useUpdateAttributeBonus } from "@/hooks/use-race-attribute-bonus";
+import { useGetAllAttributes } from "@/hooks/use-attribute";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoinSubRaceSkill | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceAttributeBonusJoinSubRaceAttribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data: dataSubRaces } = useGetAllSubRaces()
-  const { data: dataSkills, isLoading } = useGetAllSkills()
+  const { data: dataAttributes, isLoading } = useGetAllAttributes()
 
   const [bonus, setBonus] = useState<number>( row?.bonus || 0 )
   const [subRaceRelation, setSubRaceRelation] = useState<number>(row?.sub_race_id || 0)
-  const [skillRelation, setSkillRelation] = useState<number>(row?.skill_id || 0)
+  const [attributeRelation, setAttributeRelation] = useState<number>(row?.attribute_id || 0)
 
   const [save, setSave] = useState<boolean>(false)
 
   useEffect(() => {
-    if (bonus && subRaceRelation && skillRelation) {
+    if (bonus && subRaceRelation && attributeRelation) {
       setSave(true)
     } else {
       setSave(false)
     }
-  }, [bonus, subRaceRelation, skillRelation])
+  }, [bonus, subRaceRelation, attributeRelation])
 
-  const udpadeSkillBonus = useMutation({
-    mutationKey: ['udpadeSkillBonus'],
-    mutationFn: useUpdateSkillBonus,
+  const udpadeAttributeBonus = useMutation({
+    mutationKey: ['udpadeAttributeBonus'],
+    mutationFn: useUpdateAttributeBonus,
     onSuccess: () => {
       setShow(false)
       refetch()
@@ -41,17 +41,17 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoi
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_RaceSkillBonus = {
+    const newItem: DB_RaceAttributeBonus = {
       id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',
       bonus: bonus!,
       sub_race_id: subRaceRelation,
-      skill_id: skillRelation,
+      attribute_id: attributeRelation,
     }
 
-    udpadeSkillBonus.mutate({ skillBonus: newItem })
+    udpadeAttributeBonus.mutate({ attributeBonus: newItem })
   }
 
   if (isLoading) return <Spinner />
@@ -61,7 +61,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoi
       <form onSubmit={handleSubmit} className="w-full h-full flex justify-center items-center">
         <div className="min-w-[400px] flex flex-col justify-center items-center gap-2 bg-card rounded border p-2">
           <header className="w-full flex justify-between items-center">
-            <h1 className="text-xl">Crear Bonus</h1>
+            <h1 className="text-xl">Editar Bonus</h1>
             <Button onClick={() => setShow(false)} variant='destructiveOutline' size='sm' >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                 <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
@@ -88,14 +88,14 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoi
               </Select>
             </div>
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="skillRelation">Habilidad</label>
-              <Select value={skillRelation.toString()} onValueChange={(e) => setSkillRelation(Number(e))}>
+              <label htmlFor="skillRelation">Atributo</label>
+              <Select value={attributeRelation.toString()} onValueChange={(e) => setAttributeRelation(Number(e))}>
                 <SelectTrigger className="w-80">
-                  <SelectValue id='skillRelation' placeholder="Seleccione una habilidad" />
+                  <SelectValue id='skillRelation' placeholder="Seleccione un atributo" />
                 </SelectTrigger>
                 <SelectContent>
-                  {dataSkills && dataSkills.response && dataSkills.response.map(skill => (
-                    <SelectItem key={skill.id} value={skill.id.toString()}>{skill.skill_name}</SelectItem>
+                  {dataAttributes && dataAttributes.response && dataAttributes.response.map(attribute => (
+                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.attribute_name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

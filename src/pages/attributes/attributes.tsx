@@ -1,67 +1,56 @@
-import { Spinner } from "@/components/spinner"
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, SortingState, getSortedRowModel, ColumnFiltersState, getFilteredRowModel } from "@tanstack/react-table"
-import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { MoreHorizontal, PlusIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { DataTablePagination } from "@/components/ui/data-table-pagination"
-import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
-import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
-import { Input } from "@/components/ui/input"
-import { DB_Race } from "@/types/tables/race/race"
-import { useGetAllRaces } from "@/hooks/use-race"
+import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table"
+import { useGetAllAttributes } from "../../hooks/use-attribute"
+import { Spinner } from "../../components/spinner"
 import { ModalCreate } from "./components/modal-create"
+import { useState } from "react"
 import { ModalEdit } from "./components/modal-edit"
+import { DB_Attribute } from "@/types/tables/attribute/types"
 import { ModalDelete } from "./components/modal-delete"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Button } from "@/components/ui/button"
+import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DataTablePagination } from "@/components/ui/data-table-pagination"
+import { MoreHorizontal, PlusIcon } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useSearchParams } from "react-router-dom"
+import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
 
-export function RaceList() {
-  const { data, isLoading, refetch } = useGetAllRaces()
+export function AttributeList() {
+  const { data, isLoading, refetch } = useGetAllAttributes()
 
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
 
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: "Raza", value: search ?? '' }])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: "Atributo", value: search ?? '' }])
 
   const [modalCreate, setModalCreate] = useState<boolean>(false)
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_Race | null>(null)
+  const [rowSelected, setRowSelected] = useState<DB_Attribute | null>(null)
 
-  const handleEdit = (row: DB_Race) => {
+  const handleEdit = (row: DB_Attribute) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_Race) => {
+  const handleDelete = (row: DB_Attribute) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_Race>[] = [
+  const columns: ColumnDef<DB_Attribute>[] = [
     {
-      accessorKey: 'race_name',
-      id: 'Raza',
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Raza" />,
+      accessorKey: 'attribute_name',
+      id: 'Atributo',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Atributo" />,
     },
     {
-      accessorKey: 'description',
-      id: 'Descripción',
-      header: 'Descripción',
-      cell: ({ row }) => (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger className="w-80 truncate text-left">{row.original.description}</TooltipTrigger>
-            <TooltipContent>
-              <p className="w-80">{row.original.description}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      ),
+      accessorKey: 'short_name',
+      id: 'Abreviatura',
+      header: 'Abreviatura',
     },
     {
       accessorKey: 'created_at',
@@ -119,11 +108,11 @@ export function RaceList() {
     <div className="w-full h-full flex flex-col justify-start items-start p-2 gap-2">
       <div className="w-full flex justify-between items-center gap-2">
         <div className="w-full flex gap-2 justify-start items-center">
-          <Input placeholder="Filtrar por nombre..." value={(table.getColumn("Raza")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("Raza")?.setFilterValue(event.target.value)} className="max-w-sm" />
+          <Input placeholder="Filtrar por nombre..." value={(table.getColumn("Atributo")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("Atributo")?.setFilterValue(event.target.value)} className="max-w-sm" />
           <Button onClick={() => table.resetColumnFilters()} variant='outline' >Limpiar filtros</Button>
         </div>
         <div className="w-full flex gap-2 justify-end items-center">
-          <Button onClick={() => setModalCreate(true)} variant='outline'><PlusIcon /> Crear nueva raza</Button>
+          <Button onClick={() => setModalCreate(true)} variant='outline'><PlusIcon />Crear nuevo atributo</Button>
           <DataTableViewOptions table={table} />
         </div>
       </div>
@@ -163,7 +152,7 @@ export function RaceList() {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                Sin resultados.
+                No results.
               </TableCell>
             </TableRow>
           )}

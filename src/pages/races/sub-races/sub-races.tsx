@@ -1,56 +1,77 @@
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table"
-import { useGetAllAttributes } from "../../../hooks/use-attribute"
-import { Spinner } from "../../../components/spinner"
-import { ModalCreate } from "../components/modal-create"
+import { Spinner } from "@/components/spinner"
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, SortingState, getSortedRowModel, ColumnFiltersState, getFilteredRowModel } from "@tanstack/react-table"
 import { useState } from "react"
-import { ModalEdit } from "../components/modal-edit"
-import { DB_Attribute } from "@/types/tables/attribute/types"
-import { ModalDelete } from "../components/modal-delete"
-import { Button } from "@/components/ui/button"
-import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { DataTablePagination } from "@/components/ui/data-table-pagination"
 import { MoreHorizontal, PlusIcon } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useSearchParams } from "react-router-dom"
+import { DataTablePagination } from "@/components/ui/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
+import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
+import { Input } from "@/components/ui/input"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useGetAllSubRacesJoinRace } from "@/hooks/use-sub-race"
+import { Link } from "react-router-dom"
+import { DB_SubRaceJoinRace } from "@/types/tables/race/sub-race/sub-race"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useGetAllRaces } from "@/hooks/use-race"
+import { useSearchParams } from "react-router-dom"
+import { ModalCreate } from "../_components/sub-race-modals/modal-create"
+import { ModalEdit } from "../_components/sub-race-modals/modal-edit"
+import { ModalDelete } from "../_components/sub-race-modals/modal-delete"
 
-export function AttributeList() {
-  const { data, isLoading, refetch } = useGetAllAttributes()
+export function SubRaceList() {
+  const { data: dataRaces } = useGetAllRaces()
+  const { data, isLoading, refetch } = useGetAllSubRacesJoinRace()
 
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
 
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: "Atributo", value: search ?? '' }])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: "Sub-raza", value: search ?? '' }])
 
   const [modalCreate, setModalCreate] = useState<boolean>(false)
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_Attribute | null>(null)
+  const [rowSelected, setRowSelected] = useState<DB_SubRaceJoinRace | null>(null)
 
-  const handleEdit = (row: DB_Attribute) => {
+  const handleEdit = (row: DB_SubRaceJoinRace) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_Attribute) => {
+  const handleDelete = (row: DB_SubRaceJoinRace) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_Attribute>[] = [
+  const columns: ColumnDef<DB_SubRaceJoinRace>[] = [
     {
-      accessorKey: 'attribute_name',
-      id: 'Atributo',
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Atributo" />,
+      accessorKey: 'sub_race_name',
+      id: 'Sub-raza',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Sub-raza" />,
     },
     {
-      accessorKey: 'short_name',
-      id: 'Abreviatura',
-      header: 'Abreviatura',
+      accessorKey: 'description',
+      id: 'Descripción',
+      header: 'Descripción',
+      cell: ({ row }) => (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="w-80 truncate text-left">{row.original.description}</TooltipTrigger>
+            <TooltipContent>
+              <p className="w-80">{row.original.description}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ),
+    },
+    {
+      accessorKey: 'race_name',
+      id: 'Raza de origen',
+      header: 'Raza de origen',
+      cell: ({ row }) => <Link to={`/races?search=${row.original.race_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.race_name}</Link>,
     },
     {
       accessorKey: 'created_at',
@@ -108,11 +129,21 @@ export function AttributeList() {
     <div className="w-full h-full flex flex-col justify-start items-start p-2 gap-2">
       <div className="w-full flex justify-between items-center gap-2">
         <div className="w-full flex gap-2 justify-start items-center">
-          <Input placeholder="Filtrar por nombre..." value={(table.getColumn("Atributo")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("Atributo")?.setFilterValue(event.target.value)} className="max-w-sm" />
+          <Input placeholder="Filtrar por nombre..." value={(table.getColumn("Sub-raza")?.getFilterValue() as string) ?? ""} onChange={(event) => table.getColumn("Sub-raza")?.setFilterValue(event.target.value)} className="max-w-sm" />
+          <Select value={(table.getColumn('Raza de origen')?.getFilterValue() as string) ?? ""} onValueChange={(e) => table.getColumn('Raza de origen')?.setFilterValue(e)}>
+            <SelectTrigger className="max-w-sm">
+              <SelectValue placeholder="Filtrar por raza..." />
+            </SelectTrigger>
+            <SelectContent>
+              {dataRaces && dataRaces.response && dataRaces.response.map(race => (
+                <SelectItem key={race.id} value={race.race_name}>{race.race_name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Button onClick={() => table.resetColumnFilters()} variant='outline' >Limpiar filtros</Button>
         </div>
         <div className="w-full flex gap-2 justify-end items-center">
-          <Button onClick={() => setModalCreate(true)} variant='outline'><PlusIcon />Crear nuevo atributo</Button>
+          <Button onClick={() => setModalCreate(true)} variant='outline'><PlusIcon /> Crear nueva sub-raza</Button>
           <DataTableViewOptions table={table} />
         </div>
       </div>
@@ -152,7 +183,7 @@ export function AttributeList() {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Sin resultados.
               </TableCell>
             </TableRow>
           )}

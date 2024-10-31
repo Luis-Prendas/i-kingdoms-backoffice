@@ -38,7 +38,7 @@ const races = [
 const attributes = [
   {
     title: "Lista de atributos",
-    url: "/attributes/attribute-list",
+    url: "/attributes",
     icon: SlidersHorizontal,
   },
 ]
@@ -46,7 +46,7 @@ const attributes = [
 const skills = [
   {
     title: "Lista de habilidades",
-    url: "/skills/skill-list",
+    url: "/skills",
     icon: SlidersHorizontal,
   }
 ]

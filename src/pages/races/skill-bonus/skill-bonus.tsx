@@ -8,13 +8,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { DataTablePagination } from "@/components/ui/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
-import { ModalCreate } from "./components/modal-create"
-import { ModalEdit } from "./components/modal-edit"
-import { ModalDelete } from "./components/modal-delete"
+import { ModalCreate } from "../_components/attribute-bonus-modals/modal-create"
+import { ModalEdit } from "../_components/attribute-bonus-modals/modal-edit"
+import { ModalDelete } from "../_components/attribute-bonus-modals/modal-delete"
 import { useGetAllSubRaces } from "@/hooks/use-sub-race"
 import { Link } from "react-router-dom"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useGetAllSkillBonusJoinSubRaceSkill } from "@/hooks/use-skill-bonus"
+import { useGetAllSkillBonusJoinSubRaceSkill } from "@/hooks/use-race-skill-bonus"
 import { useGetAllSkills } from "@/hooks/use-skill"
 import { DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus"
 
@@ -57,13 +57,13 @@ export function SkillBonusList() {
             accessorKey: 'skill_name',
             id: 'Habilidad',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Habilidad" />,
-            cell: ({ row }) => <Link to={`/skills/skill-list?search=${row.original.skill_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.skill_name}</Link>,
+            cell: ({ row }) => <Link to={`/skills?search=${row.original.skill_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.skill_name}</Link>,
         },
         {
             accessorKey: 'sub_race_name',
             id: 'Sub-raza',
             header: ({ column }) => <DataTableColumnHeader column={column} title="Sub-raza" />,
-            cell: ({ row }) => <Link to={`/races/sub-races/sub-race-list?search=${row.original.sub_race_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.sub_race_name}</Link>,
+            cell: ({ row }) => <Link to={`/races/sub-races?search=${row.original.sub_race_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.sub_race_name}</Link>,
         },
         {
             accessorKey: 'created_at',

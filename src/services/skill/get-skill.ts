@@ -1,5 +1,5 @@
 import { API_RESPONSE } from "@/types/api"
-import { DB_Skill, DB_SkillJoinAttribute, Skill } from "@/types/tables/skill/skill"
+import { DB_Skill, DB_SkillJoinAttribute, Base_Skill } from "@/types/tables/skill/skill"
 
 export const getAllSkills = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
@@ -19,7 +19,7 @@ export const getSkillById = async (id: number) => {
   return response
 }
 
-export const createSkill = async (skill: Skill) => {
+export const createSkill = async (skill: Base_Skill) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
 
   const res = await fetch(`${baseUrl}/api/skill/create`, {
@@ -35,7 +35,7 @@ export const createSkill = async (skill: Skill) => {
   return response
 }
 
-export const editSkill = async (skill: Skill) => {
+export const editSkill = async (skill: Base_Skill) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
 
   const res = await fetch(`${baseUrl}/api/skill/update`, {
