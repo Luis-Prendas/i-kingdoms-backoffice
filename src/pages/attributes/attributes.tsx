@@ -43,7 +43,7 @@ export function AttributeList() {
 
   const columns: ColumnDef<AttributeTable>[] = [
     {
-      accessorKey: 'attribute_name',
+      accessorKey: 'name',
       id: 'Atributo',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Atributo" />,
     },

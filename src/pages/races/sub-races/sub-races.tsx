@@ -48,7 +48,7 @@ export function SubRaceList() {
 
   const columns: ColumnDef<Join_Race>[] = [
     {
-      accessorKey: 'sub_race_name',
+      accessorKey: 'name',
       id: 'Sub-raza',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Sub-raza" />,
     },
@@ -68,7 +68,7 @@ export function SubRaceList() {
       ),
     },
     {
-      accessorKey: 'name',
+      accessorKey: 'race_name',
       id: 'Raza de origen',
       header: 'Raza de origen',
       cell: ({ row }) => <Link to={`/races?search=${row.original.race_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.race_name}</Link>,

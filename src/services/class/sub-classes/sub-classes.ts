@@ -4,21 +4,21 @@ import { SubClass } from "@/types/tables/class/base"
 
 export const getAllSubClasses = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/class/sub-class`)
+  const res = await fetch(`${baseUrl}/api/sub-class`)
   const response = await res.json() as API_RESPONSE<SubClassTable[]>
   return response
 }
 
 export const getAllSubClassesJoinClass = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/class/sub-class/join_class`)
+  const res = await fetch(`${baseUrl}/api/sub-class/join_class`)
   const response = await res.json() as API_RESPONSE<Join_Class[]>
   return response
 }
 
 export const createSubClass = async (subClass: SubClass) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/class/sub-class/create`, {
+  const res = await fetch(`${baseUrl}/api/sub-class/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const createSubClass = async (subClass: SubClass) => {
 
 export const updateSubClass = async (subClass: SubClassTable) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/class/sub-class/update`, {
+  const res = await fetch(`${baseUrl}/api/sub-class/update`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export const updateSubClass = async (subClass: SubClassTable) => {
 
 export const deleteSubClass = async (id: number) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/class/sub-class/delete`, {
+  const res = await fetch(`${baseUrl}/api/sub-class/delete`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

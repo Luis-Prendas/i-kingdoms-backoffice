@@ -4,14 +4,14 @@ import { RaceSkillBonus } from "@/types/tables/race/base"
 
 export const getAllSkillBonusJoinSubRaceSkill = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/race/sub-race/skill-bonus/join-subrace-skill`)
+  const res = await fetch(`${baseUrl}/api/race-skill-bonus/join_subRace_skill_attribute`)
   const response = await res.json() as API_RESPONSE<Join_SubRace_Skill[]>
   return response
 }
 
 export const createSkillBonus = async (skillBonus: RaceSkillBonus) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/race/sub-race/skill-bonus/create`, {
+  const res = await fetch(`${baseUrl}/api/race-skill-bonus/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export const createSkillBonus = async (skillBonus: RaceSkillBonus) => {
 
 export const updateSkillBonus = async (skillBonus: RaceSkillBonusTable) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/race/sub-race/skill-bonus/update`, {
+  const res = await fetch(`${baseUrl}/api/race-skill-bonus/update`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export const updateSkillBonus = async (skillBonus: RaceSkillBonusTable) => {
 
 export const deleteSkillBonus = async (id: number) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/race/sub-race/skill-bonus/delete`, {
+  const res = await fetch(`${baseUrl}/api/race-skill-bonus/delete`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

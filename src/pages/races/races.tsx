@@ -44,7 +44,7 @@ export function RaceList() {
 
   const columns: ColumnDef<RaceTable>[] = [
     {
-      accessorKey: 'race_name',
+      accessorKey: 'name',
       id: 'Raza',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Raza" />,
     },

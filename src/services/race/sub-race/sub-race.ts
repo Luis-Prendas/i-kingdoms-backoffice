@@ -11,7 +11,7 @@ export const getAllSubRaces = async () => {
 
 export const getAllSubRacesJoinRace = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/sub-race/join-race`)
+  const res = await fetch(`${baseUrl}/api/sub-race/join_race`)
   const response = await res.json() as API_RESPONSE<Join_Race[]>
   return response
 }

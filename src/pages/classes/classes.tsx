@@ -44,7 +44,7 @@ export function ClassList() {
 
   const columns: ColumnDef<ClassTable>[] = [
     {
-      accessorKey: 'class_name',
+      accessorKey: 'name',
       id: 'Clase',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Clase" />,
     },

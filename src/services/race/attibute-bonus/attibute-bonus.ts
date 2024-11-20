@@ -4,14 +4,14 @@ import { RaceAttributeBonus } from "@/types/tables/race/base"
 
 export const getAllAttributeBonusJoinSubRaceAttribute = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/race-attribute-bonus/join-subrace-attribute`)
+  const res = await fetch(`${baseUrl}/api/race-attribute-bonus/join_subRace_attribute`)
   const response = await res.json() as API_RESPONSE<Join_SubRace_Attribute[]>
   return response
 }
 
 export const createAttributeBonus = async (attributeBonus: RaceAttributeBonus) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/race/sub-race/attribute-bonus/create`, {
+  const res = await fetch(`${baseUrl}/api/race-attribute-bonus/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

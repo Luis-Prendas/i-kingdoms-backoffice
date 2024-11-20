@@ -70,7 +70,7 @@ export function SkillList() {
 
   const columns: ColumnDef<Join_Attribute>[] = [
     {
-      accessorKey: 'skill_name',
+      accessorKey: 'name',
       id: 'Habilidad',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Habilidad" />,
     },

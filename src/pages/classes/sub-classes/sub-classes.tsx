@@ -48,7 +48,7 @@ export function SubClassList() {
 
   const columns: ColumnDef<Join_Class>[] = [
     {
-      accessorKey: 'sub_class_name',
+      accessorKey: 'name',
       id: 'Sub-clase',
       header: ({ column }) => <DataTableColumnHeader column={column} title="Sub-raza" />,
     },
