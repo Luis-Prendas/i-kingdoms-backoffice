@@ -16,7 +16,7 @@ import { Link } from "react-router-dom"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useGetAllSkillBonusJoinSubRaceSkill } from "@/hooks/use-race-skill-bonus"
 import { useGetAllSkills } from "@/hooks/use-skill"
-import { DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus"
+import { Join_SubRace_Skill } from "@/types/tables/race"
 
 export function SkillBonusList() {
     const { data: dataSubRaces } = useGetAllSubRaces()
@@ -30,19 +30,19 @@ export function SkillBonusList() {
     const [modalEdit, setModalEdit] = useState<boolean>(false)
     const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-    const [rowSelected, setRowSelected] = useState<DB_RaceSkillBonusJoinSubRaceSkill | null>(null)
+    const [rowSelected, setRowSelected] = useState<Join_SubRace_Skill | null>(null)
 
-    const handleEdit = (row: DB_RaceSkillBonusJoinSubRaceSkill) => {
+    const handleEdit = (row: Join_SubRace_Skill) => {
         setRowSelected(row)
         setModalEdit(true)
     }
 
-    const handleDelete = (row: DB_RaceSkillBonusJoinSubRaceSkill) => {
+    const handleDelete = (row: Join_SubRace_Skill) => {
         setRowSelected(row)
         setModalDelete(true)
     }
 
-    const columns: ColumnDef<DB_RaceSkillBonusJoinSubRaceSkill>[] = [
+    const columns: ColumnDef<Join_SubRace_Skill>[] = [
         {
             accessorKey: 'bonus',
             id: 'Bunus',
@@ -125,7 +125,7 @@ export function SkillBonusList() {
                         </SelectTrigger>
                         <SelectContent>
                             {dataSubRaces && dataSubRaces.response && dataSubRaces.response.map(subRace => (
-                                <SelectItem key={subRace.id} value={subRace.sub_race_name}>{subRace.sub_race_name}</SelectItem>
+                                <SelectItem key={subRace.id} value={subRace.name}>{subRace.name}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
@@ -135,7 +135,7 @@ export function SkillBonusList() {
                         </SelectTrigger>
                         <SelectContent>
                             {dataSkills && dataSkills.response && dataSkills.response.map(skill => (
-                                <SelectItem key={skill.id} value={skill.skill_name}>{skill.skill_name}</SelectItem>
+                                <SelectItem key={skill.id} value={skill.name}>{skill.name}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>

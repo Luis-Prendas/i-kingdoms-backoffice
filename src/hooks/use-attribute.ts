@@ -1,5 +1,6 @@
-import { createAttribute, deleteAttribute, editAttribute, getAllAtributes, getAttributeById } from "../services/attibute/get-atribute"
-import { Base_Attribute, DB_Attribute } from "@/types/tables/attribute/types"
+import { createAttribute, deleteAttribute, editAttribute, getAllAtributes } from "../services/attribute/get-attribute"
+import { AttributeTable } from "@/types/tables/attribute"
+import { Attribute } from "@/types/tables/attribute/base"
 import { API_RESPONSE } from "@/types/api"
 import { useQuery } from "@tanstack/react-query"
 
@@ -9,7 +10,7 @@ export const useGetAllAttributes = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_Attribute[]>, Error>({
+  return useQuery<API_RESPONSE<AttributeTable[]>, Error>({
     queryKey: ['useGetAllAttributes'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,
@@ -17,26 +18,12 @@ export const useGetAllAttributes = () => {
   })
 }
 
-export const useGetAttributeById = ({ id }: { id: number }) => {
-  const fetchData = async () => {
-    const res = await getAttributeById(id)
-    return res
-  }
-
-  return useQuery<API_RESPONSE<DB_Attribute>, Error>({
-    queryKey: ['useGetAttributeById'],
-    queryFn: fetchData,
-    refetchOnWindowFocus: true,
-    retry: false,
-  })
-}
-
-export const useCreateAttribute = async ({ attribute }: { attribute: Base_Attribute }) => {
+export const useCreateAttribute = async ({ attribute }: { attribute: Attribute }) => {
   const res = await createAttribute(attribute)
   return res
 }
 
-export const useEditAttribute = async ({ attribute }: { attribute: DB_Attribute }) => {
+export const useEditAttribute = async ({ attribute }: { attribute: AttributeTable }) => {
   const res = await editAttribute(attribute)
   return res
 }

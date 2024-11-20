@@ -1,6 +1,7 @@
 import { createSubClass, deleteSubClass, getAllSubClasses, getAllSubClassesJoinClass, updateSubClass } from "@/services/class/sub-classes/sub-classes"
 import { API_RESPONSE } from "@/types/api"
-import { DB_SubClass, DB_SubClassJoinClass, Base_SubClass } from "@/types/tables/class/sub-class/sub-class"
+import { SubClassTable, Join_Class } from "@/types/tables/class"
+import { SubClass } from "@/types/tables/class/base"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllSubClasses = () => {
@@ -9,7 +10,7 @@ export const useGetAllSubClasses = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_SubClass[]>, Error>({
+  return useQuery<API_RESPONSE<SubClassTable[]>, Error>({
     queryKey: ['useGetAllSubClasses'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,
@@ -23,7 +24,7 @@ export const useGetAllSubClassesJoinClass = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_SubClassJoinClass[]>, Error>({
+  return useQuery<API_RESPONSE<Join_Class[]>, Error>({
     queryKey: ['useGetAllSubClassesJoinClass'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,
@@ -31,12 +32,12 @@ export const useGetAllSubClassesJoinClass = () => {
   })
 }
 
-export const useCreateSubClass = async ({ subClass }: { subClass: Base_SubClass }) => {
+export const useCreateSubClass = async ({ subClass }: { subClass: SubClass }) => {
   const res = await createSubClass(subClass)
   return res
 }
 
-export const useUpdateSubClass = async ({ subClass }: { subClass: Base_SubClass }) => {
+export const useUpdateSubClass = async ({ subClass }: { subClass: SubClassTable }) => {
   const res = await updateSubClass(subClass)
   return res
 }

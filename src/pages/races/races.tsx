@@ -9,7 +9,7 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
 import { Input } from "@/components/ui/input"
-import { DB_Race } from "@/types/tables/race/race"
+import { RaceTable } from "@/types/tables/race"
 import { useGetAllRaces } from "@/hooks/use-race"
 import { ModalCreate } from "./_components/race-modals/modal-create"
 import { ModalEdit } from "./_components/race-modals/modal-edit"
@@ -30,19 +30,19 @@ export function RaceList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_Race | null>(null)
+  const [rowSelected, setRowSelected] = useState<RaceTable | null>(null)
 
-  const handleEdit = (row: DB_Race) => {
+  const handleEdit = (row: RaceTable) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_Race) => {
+  const handleDelete = (row: RaceTable) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_Race>[] = [
+  const columns: ColumnDef<RaceTable>[] = [
     {
       accessorKey: 'race_name',
       id: 'Raza',

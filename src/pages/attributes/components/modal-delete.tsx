@@ -3,9 +3,9 @@ import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useDeleteAttribute } from "@/hooks/use-attribute";
-import { DB_Attribute } from "@/types/tables/attribute/types";
+import { AttributeTable } from "@/types/tables/attribute";
 
-export function ModalDelete({ row, setShow, refetch }: { row: DB_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalDelete({ row, setShow, refetch }: { row: AttributeTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const deleteAttribute = useMutation({
     mutationKey: ['deleteAttribute'],
     mutationFn: useDeleteAttribute,

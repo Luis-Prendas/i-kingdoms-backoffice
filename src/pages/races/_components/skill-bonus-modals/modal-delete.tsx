@@ -2,10 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
 import { useDeleteSkillBonus } from "@/hooks/use-race-skill-bonus";
+import { Join_SubRace_Skill } from "@/types/tables/race";
 
-export function ModalDelete({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoinSubRaceSkill | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalDelete({ row, setShow, refetch }: { row: Join_SubRace_Skill | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const deleteSkillBonus = useMutation({
     mutationKey: ['deleteSkillBonus'],
     mutationFn: useDeleteSkillBonus,

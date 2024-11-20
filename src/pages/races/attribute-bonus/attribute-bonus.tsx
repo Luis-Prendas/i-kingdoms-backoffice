@@ -14,9 +14,9 @@ import { ModalDelete } from "../_components/attribute-bonus-modals/modal-delete"
 import { useGetAllSubRaces } from "@/hooks/use-sub-race"
 import { Link } from "react-router-dom"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DB_RaceAttributeBonusJoinSubRaceAttribute } from "@/types/tables/race/race-attribute-bonus/race-attribute-bonus"
 import { useGetAllAttributes } from "@/hooks/use-attribute"
 import { useGetAllAttributeBonusJoinSubRaceAttribute } from "@/hooks/use-race-attribute-bonus"
+import { Join_SubRace_Attribute } from "@/types/tables/race"
 
 export function AttributeBonusList() {
   const { data: dataSubRaces } = useGetAllSubRaces()
@@ -30,19 +30,19 @@ export function AttributeBonusList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_RaceAttributeBonusJoinSubRaceAttribute | null>(null)
+  const [rowSelected, setRowSelected] = useState<Join_SubRace_Attribute | null>(null)
 
-  const handleEdit = (row: DB_RaceAttributeBonusJoinSubRaceAttribute) => {
+  const handleEdit = (row: Join_SubRace_Attribute) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_RaceAttributeBonusJoinSubRaceAttribute) => {
+  const handleDelete = (row: Join_SubRace_Attribute) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_RaceAttributeBonusJoinSubRaceAttribute>[] = [
+  const columns: ColumnDef<Join_SubRace_Attribute>[] = [
     {
       accessorKey: 'bonus',
       id: 'Bunus',
@@ -125,7 +125,7 @@ export function AttributeBonusList() {
             </SelectTrigger>
             <SelectContent>
               {dataSubRaces && dataSubRaces.response && dataSubRaces.response.map(subRace => (
-                <SelectItem key={subRace.id} value={subRace.sub_race_name}>{subRace.sub_race_name}</SelectItem>
+                <SelectItem key={subRace.id} value={subRace.name}>{subRace.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -135,7 +135,7 @@ export function AttributeBonusList() {
             </SelectTrigger>
             <SelectContent>
               {dataAttributes && dataAttributes.response && dataAttributes.response.map(attribute => (
-                <SelectItem key={attribute.id} value={attribute.attribute_name}>{attribute.attribute_name}</SelectItem>
+                <SelectItem key={attribute.id} value={attribute.name}>{attribute.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>

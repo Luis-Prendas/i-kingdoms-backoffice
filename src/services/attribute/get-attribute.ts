@@ -1,25 +1,17 @@
 import { API_RESPONSE } from "@/types/api"
-import { Base_Attribute, DB_Attribute } from "@/types/tables/attribute/types"
+import { AttributeTable } from "@/types/tables/attribute"
+import { Attribute } from "@/types/tables/attribute/base"
 
 export const getAllAtributes = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
 
   const res = await fetch(`${baseUrl}/api/attribute`)
-  const response = await res.json() as API_RESPONSE<DB_Attribute[]>
+  const response = await res.json() as API_RESPONSE<AttributeTable[]>
 
   return response
 }
 
-export const getAttributeById = async (id: number) => {
-  const baseUrl = import.meta.env.VITE_BASE_API_URL
-
-  const res = await fetch(`${baseUrl}/api/attribute/${id}`)
-  const response = await res.json() as API_RESPONSE<DB_Attribute>
-
-  return response
-}
-
-export const createAttribute = async (attribute: Base_Attribute) => {
+export const createAttribute = async (attribute: Attribute) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
 
   const res = await fetch(`${baseUrl}/api/attribute/create`, {
@@ -37,7 +29,7 @@ export const createAttribute = async (attribute: Base_Attribute) => {
   return response
 }
 
-export const editAttribute = async (attribute: Base_Attribute) => {
+export const editAttribute = async (attribute: Attribute) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
 
   const res = await fetch(`${baseUrl}/api/attribute/update`, {

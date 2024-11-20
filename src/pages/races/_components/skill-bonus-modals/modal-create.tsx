@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Spinner } from "@/components/spinner";
 import { useGetAllSubRaces } from "@/hooks/use-sub-race";
 import { useGetAllSkills } from "@/hooks/use-skill";
-import { Base_RaceSkillBonus } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
+import { RaceSkillBonus } from "@/types/tables/race/base";
 import { useCreateSkillBonus } from "@/hooks/use-race-skill-bonus";
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
@@ -41,7 +41,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: Base_RaceSkillBonus = {
+    const newItem: RaceSkillBonus = {
       bonus: bonus!,
       sub_race_id: subRaceRelation,
       skill_id: skillRelation,
@@ -78,7 +78,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
                 </SelectTrigger>
                 <SelectContent>
                   {dataSubRaces && dataSubRaces.response && dataSubRaces.response.map(subRace => (
-                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.sub_race_name}</SelectItem>
+                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -91,7 +91,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
                 </SelectTrigger>
                 <SelectContent>
                   {dataSkills && dataSkills.response && dataSkills.response.map(skill => (
-                    <SelectItem key={skill.id} value={skill.id.toString()}>{skill.skill_name}</SelectItem>
+                    <SelectItem key={skill.id} value={skill.id.toString()}>{skill.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

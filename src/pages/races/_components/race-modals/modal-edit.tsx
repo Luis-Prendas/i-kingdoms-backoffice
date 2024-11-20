@@ -3,12 +3,12 @@ import { useMutation } from "@tanstack/react-query";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DB_Race } from "@/types/tables/race/race";
+import { RaceTable } from "@/types/tables/race";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateRace } from "@/hooks/use-race";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_Race | null, setShow: Dispatch<boolean>, refetch: () => void }) {
-  const [raceName, setRaceName] = useState<string>(row?.race_name || "")
+export function ModalEdit({ row, setShow, refetch }: { row: RaceTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const [raceName, setRaceName] = useState<string>(row?.name || "")
   const [description, setDescription] = useState<string>(row?.description || "")
 
   const [save, setSave] = useState<boolean>(false)
@@ -34,12 +34,12 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_Race | null, setS
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_Race = {
+    const newItem: RaceTable = {
       id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',
-      race_name: raceName,
+      name: raceName,
       description: description,
     }
 

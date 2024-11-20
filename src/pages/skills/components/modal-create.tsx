@@ -3,7 +3,7 @@ import { useGetAllAttributes } from "@/hooks/use-attribute";
 import { useMutation } from "@tanstack/react-query";
 import { Spinner } from "@/components/spinner";
 import { useCreateSkill } from "@/hooks/use-skill";
-import { Base_Skill } from "@/types/tables/skill/skill";
+import { Skill } from "@/types/tables/skill/base";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -44,10 +44,11 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: Base_Skill = {
-      skill_name: skillName,
+    const newItem: Skill = {
+      name: skillName,
       short_name: shortName,
       attribute_id: attributeRelation,
+      description: "",
     }
     createSkill.mutate({ skill: newItem })
   }
@@ -84,7 +85,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
                 </SelectTrigger>
                 <SelectContent>
                   {data && data.response && data.response.map(attribute => (
-                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.attribute_name}</SelectItem>
+                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

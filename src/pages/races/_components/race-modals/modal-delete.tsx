@@ -2,10 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { DB_Race } from "@/types/tables/race/race";
+import { RaceTable } from "@/types/tables/race";
 import { useDeleteRace } from "@/hooks/use-race";
 
-export function ModalDelete({ row, setShow, refetch }: { row: DB_Race | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalDelete({ row, setShow, refetch }: { row: RaceTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const deleteRace = useMutation({
     mutationKey: ['deleteRace'],
     mutationFn: useDeleteRace,

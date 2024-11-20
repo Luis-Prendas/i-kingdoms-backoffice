@@ -1,6 +1,5 @@
 import { Spinner } from "@/components/spinner"
 import { useGetAllSkillsWithRelation } from "@/hooks/use-skill"
-import { DB_SkillJoinAttribute } from "@/types/tables/skill/skill"
 import {
   ColumnDef,
   flexRender,
@@ -41,6 +40,7 @@ import {
 import { useGetAllAttributes } from "@/hooks/use-attribute"
 import { Link } from "react-router-dom"
 import { useSearchParams } from "react-router-dom"
+import { Join_Attribute } from "@/types/tables/skill"
 
 export function SkillList() {
   const { data: dataAttributes } = useGetAllAttributes()
@@ -56,19 +56,19 @@ export function SkillList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_SkillJoinAttribute | null>(null)
+  const [rowSelected, setRowSelected] = useState<Join_Attribute | null>(null)
 
-  const handleEdit = (row: DB_SkillJoinAttribute) => {
+  const handleEdit = (row: Join_Attribute) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_SkillJoinAttribute) => {
+  const handleDelete = (row: Join_Attribute) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_SkillJoinAttribute>[] = [
+  const columns: ColumnDef<Join_Attribute>[] = [
     {
       accessorKey: 'skill_name',
       id: 'Habilidad',
@@ -150,7 +150,7 @@ export function SkillList() {
             </SelectTrigger>
             <SelectContent>
               {dataAttributes && dataAttributes.response && dataAttributes.response.map(attribute => (
-                <SelectItem key={attribute.id} value={attribute.attribute_name}>{attribute.attribute_name}</SelectItem>
+                <SelectItem key={attribute.id} value={attribute.name}>{attribute.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>

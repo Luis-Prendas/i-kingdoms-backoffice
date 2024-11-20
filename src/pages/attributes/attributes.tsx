@@ -3,7 +3,7 @@ import { useGetAllAttributes } from "../../hooks/use-attribute"
 import { Spinner } from "../../components/spinner"
 import { useState } from "react"
 import { ModalEdit } from "./components/modal-edit"
-import { DB_Attribute } from "@/types/tables/attribute/types"
+import { AttributeTable } from "@/types/tables/attribute"
 import { ModalDelete } from "./components/modal-delete"
 import { Button } from "@/components/ui/button"
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
@@ -29,19 +29,19 @@ export function AttributeList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_Attribute | null>(null)
+  const [rowSelected, setRowSelected] = useState<AttributeTable | null>(null)
 
-  const handleEdit = (row: DB_Attribute) => {
+  const handleEdit = (row: AttributeTable) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_Attribute) => {
+  const handleDelete = (row: AttributeTable) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_Attribute>[] = [
+  const columns: ColumnDef<AttributeTable>[] = [
     {
       accessorKey: 'attribute_name',
       id: 'Atributo',

@@ -7,13 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { useGetAllRaces } from "@/hooks/use-race";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/spinner";
-import { DB_SubRace, DB_SubRaceJoinRace } from "@/types/tables/race/sub-race/sub-race";
+import { Join_Race, SubRaceTable } from "@/types/tables/race";
 import { useUpdateSubRace } from "@/hooks/use-sub-race";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_SubRaceJoinRace | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalEdit({ row, setShow, refetch }: { row: Join_Race | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data, isLoading } = useGetAllRaces()
 
-  const [subRaceName, setSubRaceName] = useState<string>(row?.sub_race_name || "")
+  const [subRaceName, setSubRaceName] = useState<string>(row?.name || "")
   const [description, setDescription] = useState<string>(row?.description || "")
   const [raceRelation, setRaceRelation] = useState<number>(row?.race_id || 0)
 
@@ -40,12 +40,12 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SubRaceJoinRace |
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_SubRace = {
+    const newItem: SubRaceTable = {
       id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',
-      sub_race_name: subRaceName,
+      name: subRaceName,
       description: description,
       race_id: raceRelation,
     }
@@ -81,7 +81,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SubRaceJoinRace |
                 </SelectTrigger>
                 <SelectContent>
                   {data && data.response && data.response.map(race => (
-                    <SelectItem key={race.id} value={race.id.toString()}>{race.race_name}</SelectItem>
+                    <SelectItem key={race.id} value={race.id.toString()}>{race.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

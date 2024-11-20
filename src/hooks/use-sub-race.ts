@@ -1,6 +1,7 @@
 import { createSubRace, getAllSubRaces, getAllSubRacesJoinRace, updateSubRace } from "@/services/race/sub-race/sub-race"
 import { API_RESPONSE } from "@/types/api"
-import { DB_SubRace, DB_SubRaceJoinRace, Base_SubRace } from "@/types/tables/race/sub-race/sub-race"
+import { SubRaceTable, Join_Race } from "@/types/tables/race" 
+import { SubRace } from "@/types/tables/race/base" 
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllSubRaces = () => {
@@ -9,7 +10,7 @@ export const useGetAllSubRaces = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_SubRace[]>, Error>({
+  return useQuery<API_RESPONSE<SubRaceTable[]>, Error>({
     queryKey: ['useGetAllSubRaces'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,
@@ -23,7 +24,7 @@ export const useGetAllSubRacesJoinRace = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_SubRaceJoinRace[]>, Error>({
+  return useQuery<API_RESPONSE<Join_Race[]>, Error>({
     queryKey: ['useGetAllSubRacesJoinRace'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,
@@ -31,12 +32,12 @@ export const useGetAllSubRacesJoinRace = () => {
   })
 }
 
-export const useCreateSubRace = async ({ subRace }: { subRace: Base_SubRace }) => {
+export const useCreateSubRace = async ({ subRace }: { subRace: SubRace }) => {
   const res = await createSubRace(subRace)
   return res
 }
 
-export const useUpdateSubRace = async ({ subRace }: { subRace: DB_SubRace }) => {
+export const useUpdateSubRace = async ({ subRace }: { subRace: SubRaceTable }) => {
   const res = await updateSubRace(subRace)
   return res
 }

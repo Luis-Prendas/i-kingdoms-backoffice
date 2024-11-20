@@ -1,6 +1,7 @@
 import { createRace, deleteRace, getAllRaces, updateRace } from "@/services/race/get-race"
 import { API_RESPONSE } from "@/types/api"
-import { DB_Race, Base_Race } from "@/types/tables/race/race"
+import { RaceTable } from "@/types/tables/race"
+import { Race } from "@/types/tables/race/base"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllRaces = () => {
@@ -9,7 +10,7 @@ export const useGetAllRaces = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_Race[]>, Error>({
+  return useQuery<API_RESPONSE<RaceTable[]>, Error>({
     queryKey: ['useGetAllRaces'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,
@@ -17,12 +18,12 @@ export const useGetAllRaces = () => {
   })
 }
 
-export const useCreateRace = async ({ race }: { race: Base_Race }) => {
+export const useCreateRace = async ({ race }: { race: Race }) => {
   const res = await createRace(race)
   return res
 }
 
-export const useUpdateRace = async ({ race }: { race: DB_Race }) => {
+export const useUpdateRace = async ({ race }: { race: RaceTable }) => {
   const res = await updateRace(race)
   return res
 }

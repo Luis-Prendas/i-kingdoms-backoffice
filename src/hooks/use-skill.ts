@@ -1,6 +1,7 @@
-import { createSkill, deleteSkill, editSkill, getAllSkills, getAllSkillsWithRelation, getSkillById } from "@/services/skill/get-skill"
+import { createSkill, deleteSkill, editSkill, getAllSkills, getAllSkillsWithRelation } from "@/services/skill/get-skill"
 import { API_RESPONSE } from "@/types/api"
-import { DB_Skill, DB_SkillJoinAttribute, Base_Skill } from "@/types/tables/skill/skill"
+import { SkillTable, Join_Attribute } from "@/types/tables/skill"
+import { Skill } from "@/types/tables/skill/base"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllSkills = () => {
@@ -9,7 +10,7 @@ export const useGetAllSkills = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_Skill[]>, Error>({
+  return useQuery<API_RESPONSE<SkillTable[]>, Error>({
     queryKey: ['useGetAllSkills'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,
@@ -17,26 +18,12 @@ export const useGetAllSkills = () => {
   })
 }
 
-export const useGetSkillById = ({ id }: { id: number }) => {
-  const fetchData = async () => {
-    const res = await getSkillById(id)
-    return res
-  }
-
-  return useQuery<API_RESPONSE<DB_Skill>, Error>({
-    queryKey: ['useGetSkillById'],
-    queryFn: fetchData,
-    refetchOnWindowFocus: true,
-    retry: false,
-  })
-}
-
-export const useCreateSkill = async ({ skill }: { skill: Base_Skill }) => {
+export const useCreateSkill = async ({ skill }: { skill: Skill }) => {
   const res = await createSkill(skill)
   return res
 }
 
-export const useEditSkill = async ({ skill }: { skill: DB_Skill }) => {
+export const useEditSkill = async ({ skill }: { skill: SkillTable }) => {
   const res = await editSkill(skill)
   return res
 }
@@ -52,7 +39,7 @@ export const useGetAllSkillsWithRelation = () => {
     return res
   }
 
-  return useQuery<API_RESPONSE<DB_SkillJoinAttribute[]>, Error>({
+  return useQuery<API_RESPONSE<Join_Attribute[]>, Error>({
     queryKey: ['useGetAllSkillsWithRelation'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,

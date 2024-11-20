@@ -9,7 +9,7 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
 import { Input } from "@/components/ui/input"
-import { DB_Class } from "@/types/tables/class/class"
+import { ClassTable } from "@/types/tables/class"
 import { useGetAllClasses } from "@/hooks/use-class"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useSearchParams } from "react-router-dom"
@@ -30,19 +30,19 @@ export function ClassList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_Class | null>(null)
+  const [rowSelected, setRowSelected] = useState<ClassTable | null>(null)
 
-  const handleEdit = (row: DB_Class) => {
+  const handleEdit = (row: ClassTable) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_Class) => {
+  const handleDelete = (row: ClassTable) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_Class>[] = [
+  const columns: ColumnDef<ClassTable>[] = [
     {
       accessorKey: 'class_name',
       id: 'Clase',

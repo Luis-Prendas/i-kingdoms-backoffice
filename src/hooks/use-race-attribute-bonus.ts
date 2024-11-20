@@ -1,6 +1,7 @@
 import { getAllAttributeBonusJoinSubRaceAttribute, createAttributeBonus, updateAttributeBonus, deleteAttributeBonus } from "@/services/race/attibute-bonus/attibute-bonus"
 import { API_RESPONSE } from "@/types/api"
-import { Base_RaceAttributeBonus, DB_RaceAttributeBonus, DB_RaceAttributeBonusJoinSubRaceAttribute } from "@/types/tables/race/race-attribute-bonus/race-attribute-bonus"
+import { RaceAttributeBonusTable, Join_SubRace_Attribute } from "@/types/tables/race"
+import { RaceAttributeBonus } from "@/types/tables/race/base"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllAttributeBonusJoinSubRaceAttribute = () => {
@@ -9,7 +10,7 @@ export const useGetAllAttributeBonusJoinSubRaceAttribute = () => {
         return res
     }
 
-    return useQuery<API_RESPONSE<DB_RaceAttributeBonusJoinSubRaceAttribute[]>, Error>({
+    return useQuery<API_RESPONSE<Join_SubRace_Attribute[]>, Error>({
         queryKey: ['useGetAllAttributeBonusJoinSubRaceAttribute'],
         queryFn: fetchData,
         refetchOnWindowFocus: true,
@@ -17,12 +18,12 @@ export const useGetAllAttributeBonusJoinSubRaceAttribute = () => {
     })
 }
 
-export const useCreateAttributeBonus = async ({ attributeBonus }: { attributeBonus: Base_RaceAttributeBonus }) => {
+export const useCreateAttributeBonus = async ({ attributeBonus }: { attributeBonus: RaceAttributeBonus }) => {
     const res = await createAttributeBonus(attributeBonus)
     return res
 }
 
-export const useUpdateAttributeBonus = async ({ attributeBonus }: { attributeBonus: DB_RaceAttributeBonus }) => {
+export const useUpdateAttributeBonus = async ({ attributeBonus }: { attributeBonus: RaceAttributeBonusTable }) => {
     const res = await updateAttributeBonus(attributeBonus)
     return res
 }

@@ -7,10 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Spinner } from "@/components/spinner";
 import { useGetAllSubRaces } from "@/hooks/use-sub-race";
 import { useGetAllSkills } from "@/hooks/use-skill";
-import { DB_RaceSkillBonus, DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus";
+import { Join_SubRace_Skill, RaceSkillBonusTable } from "@/types/tables/race";
 import { useUpdateSkillBonus } from "@/hooks/use-race-skill-bonus";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoinSubRaceSkill | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalEdit({ row, setShow, refetch }: { row: Join_SubRace_Skill | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data: dataSubRaces } = useGetAllSubRaces()
   const { data: dataSkills, isLoading } = useGetAllSkills()
 
@@ -41,7 +41,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoi
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_RaceSkillBonus = {
+    const newItem: RaceSkillBonusTable = {
       id: row.id,
       is_deleted: false,
       created_at: '',
@@ -82,7 +82,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoi
                 </SelectTrigger>
                 <SelectContent>
                   {dataSubRaces && dataSubRaces.response && dataSubRaces.response.map(subRace => (
-                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.sub_race_name}</SelectItem>
+                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -95,7 +95,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceSkillBonusJoi
                 </SelectTrigger>
                 <SelectContent>
                   {dataSkills && dataSkills.response && dataSkills.response.map(skill => (
-                    <SelectItem key={skill.id} value={skill.id.toString()}>{skill.skill_name}</SelectItem>
+                    <SelectItem key={skill.id} value={skill.id.toString()}>{skill.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

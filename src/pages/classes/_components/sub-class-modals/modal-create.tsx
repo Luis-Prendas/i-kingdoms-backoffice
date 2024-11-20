@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateSubClass } from "@/hooks/use-sub-classes";
-import { Base_SubClass } from "@/types/tables/class/sub-class/sub-class";
+import { SubClass } from "@/types/tables/class/base";
 import { useGetAllClasses } from "@/hooks/use-class";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
@@ -39,8 +39,8 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: Base_SubClass = {
-      sub_class_name: subClassName,
+    const newItem: SubClass = {
+      name: subClassName,
       description: description,
       class_id: classRelation,
       required_level: requiredLevel,
@@ -75,7 +75,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
                 </SelectTrigger>
                 <SelectContent>
                   {dataClasses && dataClasses.response && dataClasses.response.map(className => (
-                    <SelectItem key={className.id} value={className.id.toString()}>{className.class_name}</SelectItem>
+                    <SelectItem key={className.id} value={className.id.toString()}>{className.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

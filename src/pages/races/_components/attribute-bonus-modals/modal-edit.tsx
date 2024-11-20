@@ -6,11 +6,11 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/spinner";
 import { useGetAllSubRaces } from "@/hooks/use-sub-race";
-import { DB_RaceAttributeBonus, DB_RaceAttributeBonusJoinSubRaceAttribute } from "@/types/tables/race/race-attribute-bonus/race-attribute-bonus";
+import { RaceAttributeBonusTable, Join_SubRace_Attribute } from "@/types/tables/race";
 import { useUpdateAttributeBonus } from "@/hooks/use-race-attribute-bonus";
 import { useGetAllAttributes } from "@/hooks/use-attribute";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceAttributeBonusJoinSubRaceAttribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalEdit({ row, setShow, refetch }: { row: Join_SubRace_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data: dataSubRaces } = useGetAllSubRaces()
   const { data: dataAttributes, isLoading } = useGetAllAttributes()
 
@@ -41,7 +41,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceAttributeBonu
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_RaceAttributeBonus = {
+    const newItem: RaceAttributeBonusTable = {
       id: row.id,
       is_deleted: false,
       created_at: '',
@@ -82,7 +82,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceAttributeBonu
                 </SelectTrigger>
                 <SelectContent>
                   {dataSubRaces && dataSubRaces.response && dataSubRaces.response.map(subRace => (
-                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.sub_race_name}</SelectItem>
+                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -95,7 +95,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_RaceAttributeBonu
                 </SelectTrigger>
                 <SelectContent>
                   {dataAttributes && dataAttributes.response && dataAttributes.response.map(attribute => (
-                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.attribute_name}</SelectItem>
+                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

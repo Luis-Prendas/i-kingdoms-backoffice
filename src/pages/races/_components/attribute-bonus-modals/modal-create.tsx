@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Spinner } from "@/components/spinner";
 import { useGetAllSubRaces } from "@/hooks/use-sub-race";
 import { useCreateAttributeBonus } from "@/hooks/use-race-attribute-bonus";
-import { Base_RaceAttributeBonus } from "@/types/tables/race/race-attribute-bonus/race-attribute-bonus";
+import { RaceAttributeBonus } from "@/types/tables/race/base";
 import { useGetAllAttributes } from "@/hooks/use-attribute";
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
@@ -40,7 +40,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: Base_RaceAttributeBonus = {
+    const newItem: RaceAttributeBonus = {
       bonus: bonus!,
       sub_race_id: subRaceRelation,
       attribute_id: attributeRelation,
@@ -77,7 +77,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
                 </SelectTrigger>
                 <SelectContent>
                   {dataSubRaces && dataSubRaces.response && dataSubRaces.response.map(subRace => (
-                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.sub_race_name}</SelectItem>
+                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -90,7 +90,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
                 </SelectTrigger>
                 <SelectContent>
                   {dataAttributes && dataAttributes.response && dataAttributes.response.map(attribute => (
-                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.attribute_name}</SelectItem>
+                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

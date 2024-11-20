@@ -12,13 +12,13 @@ import { Input } from "@/components/ui/input"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useGetAllSubClassesJoinClass } from "@/hooks/use-sub-classes"
 import { Link } from "react-router-dom"
-import { DB_SubClassJoinClass } from "@/types/tables/class/sub-class/sub-class"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useGetAllClasses } from "@/hooks/use-class"
 import { useSearchParams } from "react-router-dom"
 import { ModalCreate } from "../_components/sub-class-modals/modal-create"
 import { ModalEdit } from "../_components/sub-class-modals/modal-edit"
 import { ModalDelete } from "../_components/sub-class-modals/modal-delete"
+import { Join_Class } from "@/types/tables/class"
 
 export function SubClassList() {
   const { data: dataClasses } = useGetAllClasses()
@@ -34,19 +34,19 @@ export function SubClassList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_SubClassJoinClass | null>(null)
+  const [rowSelected, setRowSelected] = useState<Join_Class | null>(null)
 
-  const handleEdit = (row: DB_SubClassJoinClass) => {
+  const handleEdit = (row: Join_Class) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_SubClassJoinClass) => {
+  const handleDelete = (row: Join_Class) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_SubClassJoinClass>[] = [
+  const columns: ColumnDef<Join_Class>[] = [
     {
       accessorKey: 'sub_class_name',
       id: 'Sub-clase',
@@ -141,7 +141,7 @@ export function SubClassList() {
             </SelectTrigger>
             <SelectContent>
               {dataClasses && dataClasses.response && dataClasses.response.map(className => (
-                <SelectItem key={className.id} value={className.class_name}>{className.class_name}</SelectItem>
+                <SelectItem key={className.id} value={className.name}>{className.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>

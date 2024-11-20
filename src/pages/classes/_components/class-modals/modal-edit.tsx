@@ -3,12 +3,12 @@ import { useMutation } from "@tanstack/react-query";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DB_Class } from "@/types/tables/class/class";
+import { ClassTable } from "@/types/tables/class";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateClass } from "@/hooks/use-class";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_Class | null, setShow: Dispatch<boolean>, refetch: () => void }) {
-  const [className, setClassName] = useState<string>(row?.class_name || "")
+export function ModalEdit({ row, setShow, refetch }: { row: ClassTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const [className, setClassName] = useState<string>(row?.name || "")
   const [description, setDescription] = useState<string>(row?.description || "")
 
   const [save, setSave] = useState<boolean>(false)
@@ -34,12 +34,12 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_Class | null, set
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_Class = {
+    const newItem: ClassTable = {
       id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',
-      class_name: className,
+      name: className,
       description: description,
     }
 

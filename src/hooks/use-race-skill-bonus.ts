@@ -1,6 +1,7 @@
 import { createSkillBonus, deleteSkillBonus, getAllSkillBonusJoinSubRaceSkill, updateSkillBonus } from "@/services/race/skill-bonus/skill-bonus"
 import { API_RESPONSE } from "@/types/api"
-import { Base_RaceSkillBonus, DB_RaceSkillBonus, DB_RaceSkillBonusJoinSubRaceSkill } from "@/types/tables/race/race-skill-bonus/race-skill-bonus"
+import { RaceSkillBonusTable, Join_SubRace_Skill } from "@/types/tables/race"
+import { RaceSkillBonus } from "@/types/tables/race/base"
 import { useQuery } from "@tanstack/react-query"
 
 export const useGetAllSkillBonusJoinSubRaceSkill = () => {
@@ -9,7 +10,7 @@ export const useGetAllSkillBonusJoinSubRaceSkill = () => {
         return res
     }
 
-    return useQuery<API_RESPONSE<DB_RaceSkillBonusJoinSubRaceSkill[]>, Error>({
+    return useQuery<API_RESPONSE<Join_SubRace_Skill[]>, Error>({
         queryKey: ['useGetAllSkillBonusJoinSubRaceSkill'],
         queryFn: fetchData,
         refetchOnWindowFocus: true,
@@ -17,12 +18,12 @@ export const useGetAllSkillBonusJoinSubRaceSkill = () => {
     })
 }
 
-export const useCreateSkillBonus = async ({ skillBonus }: { skillBonus: Base_RaceSkillBonus }) => {
+export const useCreateSkillBonus = async ({ skillBonus }: { skillBonus: RaceSkillBonus }) => {
     const res = await createSkillBonus(skillBonus)
     return res
 }
 
-export const useUpdateSkillBonus = async ({ skillBonus }: { skillBonus: DB_RaceSkillBonus }) => {
+export const useUpdateSkillBonus = async ({ skillBonus }: { skillBonus: RaceSkillBonusTable }) => {
     const res = await updateSkillBonus(skillBonus)
     return res
 }

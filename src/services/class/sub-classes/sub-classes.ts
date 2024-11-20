@@ -1,21 +1,22 @@
 import { API_RESPONSE } from "@/types/api"
-import { DB_SubClassJoinClass, DB_SubClass, Base_SubClass } from "@/types/tables/class/sub-class/sub-class"
+import { SubClassTable, Join_Class } from "@/types/tables/class"
+import { SubClass } from "@/types/tables/class/base"
 
 export const getAllSubClasses = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/class/sub-class`)
-  const response = await res.json() as API_RESPONSE<DB_SubClass[]>
+  const response = await res.json() as API_RESPONSE<SubClassTable[]>
   return response
 }
 
 export const getAllSubClassesJoinClass = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
-  const res = await fetch(`${baseUrl}/api/class/sub-class/join-class`)
-  const response = await res.json() as API_RESPONSE<DB_SubClassJoinClass[]>
+  const res = await fetch(`${baseUrl}/api/class/sub-class/join_class`)
+  const response = await res.json() as API_RESPONSE<Join_Class[]>
   return response
 }
 
-export const createSubClass = async (subClass: Base_SubClass) => {
+export const createSubClass = async (subClass: SubClass) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/class/sub-class/create`, {
     method: 'POST',
@@ -28,7 +29,7 @@ export const createSubClass = async (subClass: Base_SubClass) => {
   return response
 }
 
-export const updateSubClass = async (subClass: Base_SubClass) => {
+export const updateSubClass = async (subClass: SubClassTable) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/class/sub-class/update`, {
     method: 'PUT',

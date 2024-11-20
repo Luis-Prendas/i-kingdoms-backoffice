@@ -4,18 +4,18 @@ import { useMutation } from "@tanstack/react-query";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DB_SubClass } from "@/types/tables/class/sub-class/sub-class";
+import { SubClassTable } from "@/types/tables/class";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateSubClass } from "@/hooks/use-sub-classes";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useGetAllClasses } from "@/hooks/use-class";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_SubClass | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalEdit({ row, setShow, refetch }: { row: SubClassTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data: dataClasses } = useGetAllClasses()
 
   console.log(row)
 
-  const [subClassName, setSubClassName] = useState<string>(row?.sub_class_name || "")
+  const [subClassName, setSubClassName] = useState<string>(row?.name || "")
   const [description, setDescription] = useState<string>(row?.description || "")
   const [classRelation, setClassRelation] = useState<number>(row?.class_id || 0)
   const [requiredLevel, setRequiredLevel] = useState<number>(row?.required_level || 0)
@@ -43,12 +43,12 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SubClass | null, 
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_SubClass = {
+    const newItem: SubClassTable = {
       id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',
-      sub_class_name: subClassName,
+      name: subClassName,
       description: description,
       class_id: classRelation,
       required_level: requiredLevel,
@@ -83,7 +83,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SubClass | null, 
                 </SelectTrigger>
                 <SelectContent>
                   {dataClasses && dataClasses.response && dataClasses.response.map(className => (
-                    <SelectItem key={className.id} value={className.id.toString()}>{className.class_name}</SelectItem>
+                    <SelectItem key={className.id} value={className.id.toString()}>{className.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

@@ -2,10 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { DB_Class } from "@/types/tables/class/class";
+import { ClassTable } from "@/types/tables/class";
 import { useDeleteClass } from "@/hooks/use-class";
 
-export function ModalDelete({ row, setShow, refetch }: { row: DB_Class | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalDelete({ row, setShow, refetch }: { row: ClassTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const deleteClass = useMutation({
     mutationKey: ['deleteClass'],
     mutationFn: useDeleteClass,

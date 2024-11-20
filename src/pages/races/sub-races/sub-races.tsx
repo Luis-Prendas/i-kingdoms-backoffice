@@ -12,13 +12,13 @@ import { Input } from "@/components/ui/input"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useGetAllSubRacesJoinRace } from "@/hooks/use-sub-race"
 import { Link } from "react-router-dom"
-import { DB_SubRaceJoinRace } from "@/types/tables/race/sub-race/sub-race"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useGetAllRaces } from "@/hooks/use-race"
 import { useSearchParams } from "react-router-dom"
 import { ModalCreate } from "../_components/sub-race-modals/modal-create"
 import { ModalEdit } from "../_components/sub-race-modals/modal-edit"
 import { ModalDelete } from "../_components/sub-race-modals/modal-delete"
+import { Join_Race } from "@/types/tables/race"
 
 export function SubRaceList() {
   const { data: dataRaces } = useGetAllRaces()
@@ -34,19 +34,19 @@ export function SubRaceList() {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const [rowSelected, setRowSelected] = useState<DB_SubRaceJoinRace | null>(null)
+  const [rowSelected, setRowSelected] = useState<Join_Race | null>(null)
 
-  const handleEdit = (row: DB_SubRaceJoinRace) => {
+  const handleEdit = (row: Join_Race) => {
     setRowSelected(row)
     setModalEdit(true)
   }
 
-  const handleDelete = (row: DB_SubRaceJoinRace) => {
+  const handleDelete = (row: Join_Race) => {
     setRowSelected(row)
     setModalDelete(true)
   }
 
-  const columns: ColumnDef<DB_SubRaceJoinRace>[] = [
+  const columns: ColumnDef<Join_Race>[] = [
     {
       accessorKey: 'sub_race_name',
       id: 'Sub-raza',
@@ -68,7 +68,7 @@ export function SubRaceList() {
       ),
     },
     {
-      accessorKey: 'race_name',
+      accessorKey: 'name',
       id: 'Raza de origen',
       header: 'Raza de origen',
       cell: ({ row }) => <Link to={`/races?search=${row.original.race_name}`} className="text-yellow-800 bg-yellow-100 p-1 rounded border border-yellow-500">{row.original.race_name}</Link>,
@@ -136,7 +136,7 @@ export function SubRaceList() {
             </SelectTrigger>
             <SelectContent>
               {dataRaces && dataRaces.response && dataRaces.response.map(race => (
-                <SelectItem key={race.id} value={race.race_name}>{race.race_name}</SelectItem>
+                <SelectItem key={race.id} value={race.name}>{race.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>

@@ -1,7 +1,7 @@
 import { Dispatch, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useGetAllAttributes } from "@/hooks/use-attribute";
-import { DB_Skill, DB_SkillJoinAttribute } from "@/types/tables/skill/skill";
+import { SkillTable, Join_Attribute } from "@/types/tables/skill";
 import { Spinner } from "@/components/spinner";
 import { useEditSkill } from "@/hooks/use-skill";
 import { Separator } from "@/components/ui/separator";
@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_SkillJoinAttribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+export function ModalEdit({ row, setShow, refetch }: { row: Join_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data, isLoading } = useGetAllAttributes()
 
-  const [skillName, setSkillName] = useState<string>(row?.skill_name || "")
+  const [skillName, setSkillName] = useState<string>(row?.name || "")
   const [shortName, setShortName] = useState<string>(row?.short_name || "")
   const [attributeRelation, setAttributeRelation] = useState<number>(row?.attribute_id || 0)
 
@@ -45,14 +45,15 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SkillJoinAttribut
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_Skill = {
+    const newItem: SkillTable = {
       id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',
-      skill_name: skillName,
+      name: skillName,
       short_name: shortName,
       attribute_id: attributeRelation,
+      description: "",
     }
     updateSkill.mutate({ skill: newItem })
   }
@@ -89,7 +90,7 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_SkillJoinAttribut
                 </SelectTrigger>
                 <SelectContent>
                   {data && data.response && data.response.map(attribute => (
-                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.attribute_name}</SelectItem>
+                    <SelectItem key={attribute.id} value={attribute.id.toString()}>{attribute.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

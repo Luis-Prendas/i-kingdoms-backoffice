@@ -3,11 +3,11 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { DB_Attribute } from "@/types/tables/attribute/types";
 import { useEditAttribute } from "@/hooks/use-attribute";
+import { AttributeTable } from "@/types/tables/attribute";
 
-export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null, setShow: Dispatch<boolean>, refetch: () => void }) {
-  const [attributeName, setAttributeName] = useState<string>(row?.attribute_name || "")
+export function ModalEdit({ row, setShow, refetch }: { row: AttributeTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const [attributeName, setAttributeName] = useState<string>(row?.name || "")
   const [shortName, setShortName] = useState<string>(row?.short_name || "")
 
   const [save, setSave] = useState<boolean>(false)
@@ -39,14 +39,16 @@ export function ModalEdit({ row, setShow, refetch }: { row: DB_Attribute | null,
     e.preventDefault();
     if (!row) return;
 
-    const newItem: DB_Attribute = {
+    const newItem: AttributeTable = {
       id: row.id,
       is_deleted: false,
       created_at: '',
       updated_at: '',
-      attribute_name: attributeName,
+      name: attributeName,
       short_name: shortName,
+      description: "",
     }
+
     updateAttribute.mutate({ attribute: newItem })
   }
 

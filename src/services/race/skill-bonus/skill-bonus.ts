@@ -1,14 +1,15 @@
 import { API_RESPONSE } from "@/types/api"
-import { DB_RaceSkillBonusJoinSubRaceSkill, DB_RaceSkillBonus, Base_RaceSkillBonus } from "@/types/tables/race/race-skill-bonus/race-skill-bonus"
+import { Join_SubRace_Skill, RaceSkillBonusTable } from "@/types/tables/race"
+import { RaceSkillBonus } from "@/types/tables/race/base"
 
 export const getAllSkillBonusJoinSubRaceSkill = async () => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/race/sub-race/skill-bonus/join-subrace-skill`)
-  const response = await res.json() as API_RESPONSE<DB_RaceSkillBonusJoinSubRaceSkill[]>
+  const response = await res.json() as API_RESPONSE<Join_SubRace_Skill[]>
   return response
 }
 
-export const createSkillBonus = async (skillBonus: Base_RaceSkillBonus) => {
+export const createSkillBonus = async (skillBonus: RaceSkillBonus) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/race/sub-race/skill-bonus/create`, {
     method: 'POST',
@@ -21,7 +22,7 @@ export const createSkillBonus = async (skillBonus: Base_RaceSkillBonus) => {
   return response
 }
 
-export const updateSkillBonus = async (skillBonus: DB_RaceSkillBonus) => {
+export const updateSkillBonus = async (skillBonus: RaceSkillBonusTable) => {
   const baseUrl = import.meta.env.VITE_BASE_API_URL
   const res = await fetch(`${baseUrl}/api/race/sub-race/skill-bonus/update`, {
     method: 'PUT',

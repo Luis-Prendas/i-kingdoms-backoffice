@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Base_Attribute } from "@/types/tables/attribute/types";
+import { Attribute } from "@/types/tables/attribute/base";
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
   const [attributeName, setAttributeName] = useState<string>("")
@@ -38,10 +38,12 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: Base_Attribute = {
-      attribute_name: attributeName,
+    const newItem: Attribute = {
+      name: attributeName,
       short_name: shortName,
+      description: "",
     }
+    
     createAttribute.mutate({ attribute: newItem })
   }
 

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateClass } from "@/hooks/use-class";
-import { Base_Class } from "@/types/tables/class/class";
+import { Class } from "@/types/tables/class/base";
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
   const [className, setClassName] = useState<string>("")
@@ -33,8 +33,8 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newItem: Base_Class = {
-      class_name: className,
+    const newItem: Class = {
+      name: className,
       description: description,
     }
 
