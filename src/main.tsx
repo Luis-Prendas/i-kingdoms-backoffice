@@ -15,6 +15,8 @@ import { SubRaceList } from './pages/races/sub-races/sub-races.tsx'
 import { AttributeBonusList } from './pages/races/attribute-bonus/attribute-bonus.tsx'
 import { ClassList } from './pages/classes/classes.tsx'
 import { SubClassList } from './pages/classes/sub-classes/sub-classes.tsx'
+import { ClassAttriBonusList } from './pages/classes/attribute-bonus/attribute-bonus.tsx'
+import { ClassSkillBonusList } from './pages/classes/skill-bonus/skill-bonus.tsx'
 
 const queryClient = new QueryClient()
 
@@ -39,6 +41,8 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/classes'>
               <Route index element={<ClassList />} />
               <Route path='sub-class' element={<SubClassList />} />
+              <Route path='sub-class/attribute-bonus' element={<ClassAttriBonusList />} />
+              <Route path='sub-class/skill-bonus' element={<ClassSkillBonusList />} />
             </Route>
 
             {/* Attributes */}

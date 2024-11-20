@@ -1,4 +1,4 @@
-import { createClass, deleteClass, getAllClasses, updateClass, getClassById } from "@/services/class/get-class"
+import { createClass, deleteClass, getAllClasses, updateClass } from "@/services/class/get-class"
 import { API_RESPONSE } from "@/types/api"
 import { ClassTable } from "@/types/tables/class"
 import { Class } from "@/types/tables/class/base"
@@ -12,20 +12,6 @@ export const useGetAllClasses = () => {
 
   return useQuery<API_RESPONSE<ClassTable[]>, Error>({
     queryKey: ['useGetAllClasses'],
-    queryFn: fetchData,
-    refetchOnWindowFocus: true,
-    retry: false,
-  })
-}
-
-export const useGetClassById = ({ id }: { id: number }) => {
-  const fetchData = async () => {
-    const res = await getClassById(id)
-    return res
-  }
-
-  return useQuery<API_RESPONSE<ClassTable>, Error>({
-    queryKey: ['useGetClassById'],
     queryFn: fetchData,
     refetchOnWindowFocus: true,
     retry: false,

@@ -1,5 +1,5 @@
 import { Spinner } from "@/components/spinner"
-import { useGetAllSkillsWithRelation } from "@/hooks/use-skill"
+import { useGetAllSkillsWithRelation } from "@/hooks/skill/use-skill"
 import {
   ColumnDef,
   flexRender,
@@ -37,7 +37,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useGetAllAttributes } from "@/hooks/use-attribute"
+import { useGetAllAttributes } from "@/hooks/attribute/use-attribute"
 import { Link } from "react-router-dom"
 import { useSearchParams } from "react-router-dom"
 import { Join_Attribute } from "@/types/tables/skill"

@@ -1,4 +1,4 @@
-import { useDeleteSkill } from "@/hooks/use-skill";
+import { useDeleteSkill } from "@/hooks/skill/use-skill";
 import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";

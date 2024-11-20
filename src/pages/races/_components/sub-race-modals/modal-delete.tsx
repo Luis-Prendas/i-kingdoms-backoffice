@@ -3,7 +3,7 @@ import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { RaceTable } from "@/types/tables/race";
-import { useDeleteRace } from "@/hooks/use-race";
+import { useDeleteRace } from "@/hooks/race/use-race";
 
 export function ModalDelete({ row, setShow, refetch }: { row: RaceTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const deleteRace = useMutation({

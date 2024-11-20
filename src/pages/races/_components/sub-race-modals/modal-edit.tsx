@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { useGetAllRaces } from "@/hooks/use-race";
+import { useGetAllRaces } from "@/hooks/race/use-race";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/spinner";
 import { Join_Race, SubRaceTable } from "@/types/tables/race";
-import { useUpdateSubRace } from "@/hooks/use-sub-race";
+import { useUpdateSubRace } from "@/hooks/race/use-sub-race";
 
 export function ModalEdit({ row, setShow, refetch }: { row: Join_Race | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data, isLoading } = useGetAllRaces()

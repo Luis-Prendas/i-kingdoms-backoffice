@@ -1,4 +1,4 @@
-import { createAttribute, deleteAttribute, editAttribute, getAllAtributes } from "../services/attribute/get-attribute"
+import { createAttribute, deleteAttribute, editAttribute, getAllAtributes } from "../../services/attribute/get-attribute"
 import { AttributeTable } from "@/types/tables/attribute"
 import { Attribute } from "@/types/tables/attribute/base"
 import { API_RESPONSE } from "@/types/api"

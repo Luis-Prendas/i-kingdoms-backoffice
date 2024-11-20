@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RaceTable } from "@/types/tables/race";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateRace } from "@/hooks/use-race";
+import { useUpdateRace } from "@/hooks/race/use-race";
 
 export function ModalEdit({ row, setShow, refetch }: { row: RaceTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const [raceName, setRaceName] = useState<string>(row?.name || "")

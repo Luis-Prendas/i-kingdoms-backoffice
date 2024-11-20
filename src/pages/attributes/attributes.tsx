@@ -1,5 +1,5 @@
 import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table"
-import { useGetAllAttributes } from "../../hooks/use-attribute"
+import { useGetAllAttributes } from "../../hooks/attribute/use-attribute"
 import { Spinner } from "../../components/spinner"
 import { useState } from "react"
 import { ModalEdit } from "./components/modal-edit"

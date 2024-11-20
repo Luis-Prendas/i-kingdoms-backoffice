@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateRace } from "@/hooks/use-race";
+import { useCreateRace } from "@/hooks/race/use-race";
 import { Race } from "@/types/tables/race/base";
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {

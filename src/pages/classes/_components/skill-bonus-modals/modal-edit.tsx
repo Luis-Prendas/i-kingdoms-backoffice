@@ -5,18 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/spinner";
-import { useGetAllSubRaces } from "@/hooks/race/use-sub-race";
-import { useCreateAttributeBonus } from "@/hooks/race/use-race-attribute-bonus";
-import { RaceAttributeBonus } from "@/types/tables/race/base";
 import { useGetAllAttributes } from "@/hooks/attribute/use-attribute";
+import { useGetAllSubClasses } from "@/hooks/class/use-sub-classes";
+import { Join_Skill_SubClass, ClassSkillBonusTable } from "@/types/tables/class";
+import { useUpdateClassSkillBonus } from "@/hooks/class/use-class-skill-bonus";
 
-export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
-  const { data: dataSubRaces } = useGetAllSubRaces()
+export function ModalEdit({ row, setShow, refetch }: { row: Join_Skill_SubClass | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const { data: dataSubClass } = useGetAllSubClasses()
   const { data: dataAttributes, isLoading } = useGetAllAttributes()
 
-  const [bonus, setBonus] = useState<number>()
-  const [subRaceRelation, setSubRaceRelation] = useState<number>(0)
-  const [attributeRelation, setAttributeRelation] = useState<number>(0)
+  const [bonus, setBonus] = useState<number>( row?.bonus || 0 )
+  const [subRaceRelation, setSubRaceRelation] = useState<number>(row?.sub_class_id || 0)
+  const [attributeRelation, setAttributeRelation] = useState<number>(row?.skill_id || 0)
 
   const [save, setSave] = useState<boolean>(false)
 
@@ -28,9 +28,9 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
     }
   }, [bonus, subRaceRelation, attributeRelation])
 
-  const createAttributeBonus = useMutation({
-    mutationKey: ['createAttributeBonus'],
-    mutationFn: useCreateAttributeBonus,
+  const udpadeClassSkillBonus = useMutation({
+    mutationKey: ['udpadeClassSkillBonus'],
+    mutationFn: useUpdateClassSkillBonus,
     onSuccess: () => {
       setShow(false)
       refetch()
@@ -39,14 +39,20 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!row) return;
 
-    const newItem: RaceAttributeBonus = {
+    const newItem: ClassSkillBonusTable = {
+      id: row.id,
+      is_deleted: false,
+      created_at: '',
+      updated_at: '',
       bonus: bonus!,
-      sub_race_id: subRaceRelation,
-      attribute_id: attributeRelation,
+      sub_class_id: subRaceRelation,
+      skill_id: attributeRelation,
+      required_level: 0,
     }
 
-    createAttributeBonus.mutate({ attributeBonus: newItem })
+    udpadeClassSkillBonus.mutate({ skillBonus: newItem })
   }
 
   if (isLoading) return <Spinner />
@@ -56,7 +62,7 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
       <form onSubmit={handleSubmit} className="w-full h-full flex justify-center items-center">
         <div className="min-w-[400px] flex flex-col justify-center items-center gap-2 bg-card rounded border p-2">
           <header className="w-full flex justify-between items-center">
-            <h1 className="text-xl">Crear Bonus</h1>
+            <h1 className="text-xl">Editar Bonus</h1>
             <Button onClick={() => setShow(false)} variant='destructiveOutline' size='sm' >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                 <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
@@ -76,14 +82,14 @@ export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, 
                   <SelectValue id='subRaceRelation' placeholder="Seleccione una sub-raza" />
                 </SelectTrigger>
                 <SelectContent>
-                  {dataSubRaces && dataSubRaces.response && dataSubRaces.response.map(subRace => (
-                    <SelectItem key={subRace.id} value={subRace.id.toString()}>{subRace.name}</SelectItem>
+                  {dataSubClass && dataSubClass.response && dataSubClass.response.map(subClass => (
+                    <SelectItem key={subClass.id} value={subClass.id.toString()}>{subClass.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="skillRelation">Atributo</label>
+              <label htmlFor="skillRelation">Habilidad</label>
               <Select value={attributeRelation.toString()} onValueChange={(e) => setAttributeRelation(Number(e))}>
                 <SelectTrigger className="w-80">
                   <SelectValue id='skillRelation' placeholder="Seleccione un atributo" />

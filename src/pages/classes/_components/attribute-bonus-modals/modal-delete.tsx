@@ -2,23 +2,23 @@ import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { useDeleteAttribute } from "@/hooks/attribute/use-attribute";
-import { AttributeTable } from "@/types/tables/attribute";
+import { useDeleteClassAttriBonus } from "@/hooks/class/use-class-attribute-bonus";
+import { Join_Attribute_SubClass } from "@/types/tables/class";
 
-export function ModalDelete({ row, setShow, refetch }: { row: AttributeTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
-  const deleteAttribute = useMutation({
-    mutationKey: ['deleteAttribute'],
-    mutationFn: useDeleteAttribute,
+export function ModalDelete({ row, setShow, refetch }: { row: Join_Attribute_SubClass | null, setShow: Dispatch<boolean>, refetch: () => void }) {
+  const deleteClassAttriBonus = useMutation({
+    mutationKey: ['deleteClassAttriBonus'],
+    mutationFn: useDeleteClassAttriBonus,
     onSuccess: () => {
       setShow(false)
       refetch()
     },
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!row) return;
-    deleteAttribute.mutate({ id: row.id })
+    deleteClassAttriBonus.mutate({ id: row.id })
   }
 
   return (
@@ -26,7 +26,7 @@ export function ModalDelete({ row, setShow, refetch }: { row: AttributeTable | n
       <form onSubmit={handleSubmit} className="w-full h-full flex justify-center items-center">
         <div className="min-w-[400px] flex flex-col justify-center items-center gap-2 bg-card rounded border p-2">
           <header className="w-full flex justify-between items-center">
-            <h1 className="text-xl">Eliminar Habilidad</h1>
+            <h1 className="text-xl">Eliminar Bonus</h1>
             <Button onClick={() => setShow(false)} variant='destructiveOutline' size='sm' >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                 <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />

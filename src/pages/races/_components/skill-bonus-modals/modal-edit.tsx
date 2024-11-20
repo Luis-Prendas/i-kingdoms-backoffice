@@ -5,10 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Spinner } from "@/components/spinner";
-import { useGetAllSubRaces } from "@/hooks/use-sub-race";
-import { useGetAllSkills } from "@/hooks/use-skill";
+import { useGetAllSubRaces } from "@/hooks/race/use-sub-race";
+import { useGetAllSkills } from "@/hooks/skill/use-skill";
 import { Join_SubRace_Skill, RaceSkillBonusTable } from "@/types/tables/race";
-import { useUpdateSkillBonus } from "@/hooks/use-race-skill-bonus";
+import { useUpdateSkillBonus } from "@/hooks/race/use-race-skill-bonus";
 
 export function ModalEdit({ row, setShow, refetch }: { row: Join_SubRace_Skill | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data: dataSubRaces } = useGetAllSubRaces()

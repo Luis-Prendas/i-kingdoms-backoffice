@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useEditAttribute } from "@/hooks/use-attribute";
+import { useEditAttribute } from "@/hooks/attribute/use-attribute";
 import { AttributeTable } from "@/types/tables/attribute";
 
 export function ModalEdit({ row, setShow, refetch }: { row: AttributeTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {

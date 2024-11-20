@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SubClassTable } from "@/types/tables/class";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateSubClass } from "@/hooks/use-sub-classes";
+import { useUpdateSubClass } from "@/hooks/class/use-sub-classes";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useGetAllClasses } from "@/hooks/use-class";
+import { useGetAllClasses } from "@/hooks/class/use-class";
 
 export function ModalEdit({ row, setShow, refetch }: { row: SubClassTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const { data: dataClasses } = useGetAllClasses()

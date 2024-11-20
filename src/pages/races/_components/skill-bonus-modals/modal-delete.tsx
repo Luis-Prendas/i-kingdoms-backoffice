@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { useDeleteSkillBonus } from "@/hooks/use-race-skill-bonus";
+import { useDeleteSkillBonus } from "@/hooks/race/use-race-skill-bonus";
 import { Join_SubRace_Skill } from "@/types/tables/race";
 
 export function ModalDelete({ row, setShow, refetch }: { row: Join_SubRace_Skill | null, setShow: Dispatch<boolean>, refetch: () => void }) {

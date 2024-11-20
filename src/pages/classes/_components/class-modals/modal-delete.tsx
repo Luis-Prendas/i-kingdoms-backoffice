@@ -3,7 +3,7 @@ import { Dispatch } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { ClassTable } from "@/types/tables/class";
-import { useDeleteClass } from "@/hooks/use-class";
+import { useDeleteClass } from "@/hooks/class/use-class";
 
 export function ModalDelete({ row, setShow, refetch }: { row: ClassTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const deleteClass = useMutation({

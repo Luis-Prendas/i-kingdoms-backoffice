@@ -1,5 +1,5 @@
 import { Dispatch, useEffect, useState } from "react";
-import { useCreateAttribute } from "@/hooks/use-attribute";
+import { useCreateAttribute } from "@/hooks/attribute/use-attribute";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

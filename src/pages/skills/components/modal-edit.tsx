@@ -1,9 +1,9 @@
 import { Dispatch, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useGetAllAttributes } from "@/hooks/use-attribute";
+import { useGetAllAttributes } from "@/hooks/attribute/use-attribute";
 import { SkillTable, Join_Attribute } from "@/types/tables/skill";
 import { Spinner } from "@/components/spinner";
-import { useEditSkill } from "@/hooks/use-skill";
+import { useEditSkill } from "@/hooks/skill/use-skill";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"

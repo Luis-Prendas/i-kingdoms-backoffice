@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ClassTable } from "@/types/tables/class";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateClass } from "@/hooks/use-class";
+import { useUpdateClass } from "@/hooks/class/use-class";
 
 export function ModalEdit({ row, setShow, refetch }: { row: ClassTable | null, setShow: Dispatch<boolean>, refetch: () => void }) {
   const [className, setClassName] = useState<string>(row?.name || "")

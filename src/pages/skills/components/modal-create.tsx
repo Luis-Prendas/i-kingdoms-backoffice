@@ -1,8 +1,8 @@
 import { Dispatch, useEffect, useState } from "react";
-import { useGetAllAttributes } from "@/hooks/use-attribute";
+import { useGetAllAttributes } from "@/hooks/attribute/use-attribute";
 import { useMutation } from "@tanstack/react-query";
 import { Spinner } from "@/components/spinner";
-import { useCreateSkill } from "@/hooks/use-skill";
+import { useCreateSkill } from "@/hooks/skill/use-skill";
 import { Skill } from "@/types/tables/skill/base";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

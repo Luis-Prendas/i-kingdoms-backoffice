@@ -10,10 +10,10 @@ import { DataTableColumnHeader } from "@/components/ui/data-table-colum-header"
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options"
 import { Input } from "@/components/ui/input"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { useGetAllSubClassesJoinClass } from "@/hooks/use-sub-classes"
+import { useGetAllSubClassesJoinClass } from "@/hooks/class/use-sub-classes"
 import { Link } from "react-router-dom"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useGetAllClasses } from "@/hooks/use-class"
+import { useGetAllClasses } from "@/hooks/class/use-class"
 import { useSearchParams } from "react-router-dom"
 import { ModalCreate } from "../_components/sub-class-modals/modal-create"
 import { ModalEdit } from "../_components/sub-class-modals/modal-edit"
@@ -50,7 +50,7 @@ export function SubClassList() {
     {
       accessorKey: 'name',
       id: 'Sub-clase',
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Sub-raza" />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Sub-clase" />,
     },
     {
       accessorKey: 'required_level',

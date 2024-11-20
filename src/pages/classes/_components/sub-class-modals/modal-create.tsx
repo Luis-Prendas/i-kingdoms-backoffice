@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateSubClass } from "@/hooks/use-sub-classes";
+import { useCreateSubClass } from "@/hooks/class/use-sub-classes";
 import { SubClass } from "@/types/tables/class/base";
-import { useGetAllClasses } from "@/hooks/use-class";
+import { useGetAllClasses } from "@/hooks/class/use-class";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export function ModalCreate({ setShow, refetch }: { setShow: Dispatch<boolean>, refetch: () => void }) {
